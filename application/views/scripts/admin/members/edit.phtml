@@ -12,8 +12,8 @@ $this->headTitle('Members - Edit Member');
                 <div class="btn-group" role="group" aria-label="...">
                     <a 
                         href='<?php echo $this->url(array('controller'=>'admin_members', 'action'=>'index'), 'default', true) ?>' 
-                    <button type="button" class="btn btn-default">
-                        <i class="glyphicon glyphicon-arrow-left"></i>Back to all members</button></a>
+                        class="btn btn-default">
+                        <i class="glyphicon glyphicon-arrow-left"></i>Back to all members</a>
                 </div>
                 
             </div>
@@ -64,7 +64,8 @@ $this->headTitle('Members - Edit Member');
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="resume">Resume</label>
                             <div class="col-md-4">                     
-                                <textarea name="resume" class="form-control" id="resume"></textarea>
+                                <textarea name="resume" class="form-control" id="resume" placeholder=""></textarea>
+                                <span class="help-block"></span> 
                             </div>
                         </div>
 
