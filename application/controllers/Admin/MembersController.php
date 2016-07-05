@@ -89,4 +89,8 @@ class Admin_MembersController extends Zend_Controller_Action {
         $this->view->form = $form;
     }
 
+    public function editAction() {
+        
+        
+    }
 }
