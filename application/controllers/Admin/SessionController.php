@@ -80,7 +80,7 @@ class Admin_SessionController extends Zend_Controller_Action
                  //smestanje kompletnog reda iz tabele cms_users kao identifikator da je korisnik ulogovan
                  //po defaultu se smesta samo username, a ovako smestamo acocijativni niz tj row iz tabele
                  //asocijativni niz $user ima kljuceve koji su u stvari nazivi kolone u tabeli cms_users
-                 $user = $authAdapter->getResultRowObject();
+                 $user = (array) $authAdapter->getResultRowObject();
                  $auth->getStorage()->write($user);
                  
                  $redirector = $this->getHelper('Redirector');
