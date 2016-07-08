@@ -1,4 +1,8 @@
+<?php
+//dohvatamo iz sesije ko je ulogovan
+$user = Zend_Auth::getInstance()->getIdentity();
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,6 +60,9 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#">
+                            Signed in as <strong><?php echo $this->escape($user['username']) ?></strong>
+                            <li class="divider"></li></a>
                         <li><a href="<?php echo $this->url(array('controller' =>'admin_profile', 'action'=>'edit'), 'default', true); ?>"><i class="fa fa-user fa-fw"></i> Edit Profile</a>
                         </li>
                         <li><a href="<?php echo $this->url(array('controller' =>'admin_profile', 'action'=>'changepassword'), 'default', true); ?>"><i class="fa fa-key fa-fw"></i> Change Profile</a>

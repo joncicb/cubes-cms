@@ -1,0 +1,201 @@
+<div class="page-header">
+  <h1>JavaScript 1</h1>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<button class="btn btn-default">Ulepsaj tabelu</button>
+		<button class="btn btn-default">Dodaj red</button>
+		<a href="http://www.facebook.com" class="btn btn-default">Otvori facebook</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>#</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>php01</td>
+					<td>Aleksandar</td>
+					<td>Stevanovic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php02</td>
+					<td>Natasa</td>
+					<td>Lukic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php03</td>
+					<td>Aleksandra</td>
+					<td>Petkovic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php04</td>
+					<td>Djordje</td>
+					<td>Stojiljkovic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php05</td>
+					<td>Milos</td>
+					<td>Stefanovic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php06</td>
+					<td>Milomir</td>
+					<td>Dragovic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php07</td>
+					<td>Miroslav</td>
+					<td>Mutic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php08</td>
+					<td>Bojan</td>
+					<td>Joncic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php09</td>
+					<td>Arben</td>
+					<td>Bakiu</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>php10</td>
+					<td>Zeljka</td>
+					<td>Babic</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-sm"><i class="fa fa-eye"></i></button>
+							<button class="btn btn-sm"><i class="fa fa-trash"></i></button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script>
+         //definisanje promenljivih
+         var ime = 'Ime1';
+         var starost = 30;
+         
+        //definisanje funkcije
+         //alert(ime);
+         
+         //definisanje niza
+         var polaznici = ['Aleksandar Stevanovic', 'Natasa Lukic', 'Aleksandra Petkovic'];
+         //foreach petlja tj for in vadi samo index i pomocu njega se vadi vrednost niza
+         for(var index in polaznici){
+             //console.log(index + ': ' + polaznici[index]);
+             
+         }
+         //console.log(polaznici);
+         
+         
+         //pristupanje clanovima niza
+        // alert(polaznici[1]);
+         
+         //definisanje objekta
+         var polaznik = {
+             'ime':'Ime1',
+             'prezime':'Prezime1',
+             'starost':30
+         };
+         
+         for(var key in polaznik){
+             console.log(key + '->' + polaznik[key]);
+         }
+         //alert(polaznik.prezime);
+         
+         //JSON - Java Script Object Notation
+         
+         var cubes = {
+             name:'Cubes d.o.o.',
+             address:'Culevar Mihajla Pupina 181',
+             courses:[
+                 {
+                     name:'PHP',
+                     students:{
+                         php01:'Aleksandar Stevanovic',
+                         php02:'Natasa Lukic',
+                         php03:'Aleksandra Petkovic'
+                     }
+                 },
+                 {
+                     name:'iOS',
+                     students:{
+                         ios01:'IOS 1',
+                         ios02:'IOS 2',
+                         ios03:'IOS 3'
+                     }
+                 }
+             ]
+         }
+         //console.log(cubes);
+         //pristupanje clanovima niza kad ima vise nizova
+        // alert(cubes.courses[0].students.php03);
+         //isto kao da smo pisali alert(cubes['courses'][0]['students']['php02']);
+         
+         
+         
+</script>
