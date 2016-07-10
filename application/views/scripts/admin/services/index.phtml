@@ -1,8 +1,8 @@
 <?php
-$this->headTitle('Members');
+$this->headTitle('Services');
 ?>
 <div class="page-header">
-    <h1>Members</h1>
+    <h1>Services</h1>
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -15,68 +15,60 @@ $this->headTitle('Members');
             <div class="panel-heading text-right">
                 <div class="btn-group" role="group" aria-label="...">
                     <a 
-                        href='<?php echo $this->url(array('controller'=>'admin_members', 'action'=>'add'), 'default', true) ?>' 
+                        href='<?php echo $this->url(array('controller'=>'admin_services', 'action'=>'add'), 'default', true) ?>' 
                        class="btn btn-default"
-                       ><i class="glyphicon glyphicon-plus"></i>Add member</a>
+                       ><i class="glyphicon glyphicon-plus"></i>Add service</a>
                 
 </div></div>
             <div class="panel-body">
               				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th class="text-center">Img</th>
+							<th class="text-center">Icon</th>
 							<th class="text-center">Status</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Work Title</th>
-							<th>Email</th>
-							<th class="text-right">#</th>
+							<th>Title</th>
+							<th>Description</th>
+							<th class="text-center">#</th>
 						</tr>
 					</thead>
 					<tbody>
-                                            <?php foreach($this->members as $member){
-                                                if($member['status'] == Application_Model_DbTable_CmsMembers::STATUS_DISABLED){
+                                            <?php foreach($this->services as $service){
+                                                if($service['status'] == Application_Model_DbTable_CmsServices::STATUS_DISABLED){
                                                  ?>
                                             <tr class="danger">
-                                                        <td class="text-center"><img style="max-height: 24px;" src="<?php echo $this->memberImgUrl($member); ?>"></td>
+                                                        <td class="text-center"><i class="<?php echo $this->escape($service['icon']); ?>  icon-small icon-inverse-80 _icon-circle"></i></td>
 							<td class="text-center"><span class="badge alert-danger" title="disabled"><i class="glyphicon glyphicon-remove"></i></span></td>
-							
-                                                        <td><?php echo $this->escape($member['first_name']); ?></td><!--  escape je htmlspecialchars-->
-                                                        <td><?php echo $this->escape($member['last_name']); ?></td>
-							<td><?php echo $this->escape($member['work_title']); ?></td>
-							<td><?php echo $this->escape($member['email']); ?></td>
+                                                        <td><?php echo $this->escape($service['title']); ?></td>
+							<td><?php echo $this->escape($service['description']); ?></td>
 							<td class="text-center">
 								<div class="btn-group btn-group-sm" role="group" aria-label="...">
 									<a 
-                                                                                href="<?php echo $this->url(array('controller' =>'aboutus', 'action'=>'member', 'id'=>$member['id']), 'default', true) ?>"
+                                                                                href="<?php echo $this->url(array('controller' =>'services', 'action'=>'service', 'id'=>$service['id']), 'default', true) ?>"
                                                                                 target="_blank"
                                                                                 type="button" class="btn btn-default" title="preview"><i class="glyphicon glyphicon-eye-open"></i></a>
 									<a 
-                                                                                href="<?php echo $this->url(array('controller' =>'admin_members', 'action'=>'edit', 'id'=>$member['id']), 'default', true) ?>"
+                                                                                href="<?php echo $this->url(array('controller' =>'admin_services', 'action'=>'edit', 'id'=>$service['id']), 'default', true) ?>"
                                                                             type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
 									<button type="button" class="btn btn-default" title="enable"><i class="glyphicon glyphicon-ok"></i></button>
 								</div>
 							</td>
 						</tr>
-                                            
                                             <?php
                                                 }else{
                                                 ?>
                                             <tr>
-                                                <td class="text-center"><img style="max-height: 24px;" src="<?php echo $this->memberImgUrl($member); ?>"></td>
+                                                        <td class="text-center"><i class="<?php echo $this->escape($service['icon']); ?>  icon-small icon-inverse-80 _icon-circle"></i></td>
 							<td class="text-center"><span class="badge alert-success" title="enabled"><i class="glyphicon glyphicon-ok"></i></span></td>
-							<td><?php echo $this->escape($member['first_name']); ?></td>
-							<td><?php echo $this->escape($member['last_name']); ?></td>
-							<td><?php echo $this->escape($member['work_title']); ?></td>
-							<td><?php echo $this->escape($member['email']); ?><td>
+                                                        <td><?php echo $this->escape($service['title']); ?></td>
+							<td class="text-left"><?php echo $this->escape($service['description']); ?></td>
 							<td class="text-center">
 								<div class="btn-group btn-group-sm" role="group" aria-label="...">
 									<a 
-                                                                                href="<?php echo $this->url(array('controller' =>'aboutus', 'action'=>'member', 'id'=>$member['id']), 'default', true) ?>"
+                                                                                href="<?php echo $this->url(array('controller' =>'services', 'action'=>'service', 'id'=>$service['id']), 'default', true) ?>"
                                                                                 target="_blank"
                                                                                 type="button" class="btn btn-default" title="preview"><i class="glyphicon glyphicon-eye-open"></i></a>
 									<a 
-                                                                           href="<?php echo $this->url(array('controller' =>'admin_members', 'action'=>'edit', 'id'=>$member['id']), 'default', true) ?>"
+                                                                           href="<?php echo $this->url(array('controller' =>'admin_services', 'action'=>'edit', 'id'=>$service['id']), 'default', true) ?>"
                                                                            type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
 									<button type="button" class="btn btn-default" title="disable"><i class="glyphicon glyphicon-remove"></i></button>
 								</div>
@@ -95,4 +87,5 @@ $this->headTitle('Members');
         </div>
     </div>
 </div>
+
 

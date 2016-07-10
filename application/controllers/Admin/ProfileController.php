@@ -18,7 +18,7 @@ class Admin_ProfileController extends Zend_Controller_Action{
     
     public function editAction() {
         
-        //dobijamo red iz tabele koji smo sacuvali u sesiju
+        //dobijamo red iz tabele koji smo sacuvali u sesiji
         $user = Zend_Auth::getInstance()->getIdentity();
 
 
@@ -44,7 +44,7 @@ class Admin_ProfileController extends Zend_Controller_Action{
                 if (!$form->isValid($request->getPost())) {
                     throw new Application_Model_Exception_InvalidInput('Invalid data has been send for user profile');
                 }
-                 //getValues dobijamo ppodatke koji su filtrirani i validirani iz forme dobijamo sredjene podatke
+                 //getValues dobijamo podatke koji su filtrirani i validirani iz forme dobijamo sredjene podatke
                 //get form data
                 $formData = $form->getValues();
                 
@@ -56,7 +56,7 @@ class Admin_ProfileController extends Zend_Controller_Action{
                 //fetch fresh userdata
                 $user = $cmsUsersTable->getUserById($user['id']);
                 
-                //write fresh usewr data into session
+                //write fresh user data into session
                 Zend_Auth::getInstance()->getStorage()->write($user);
                 
                 //set system message

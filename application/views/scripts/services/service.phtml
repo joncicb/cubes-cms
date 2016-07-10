@@ -1,0 +1,32 @@
+<div id="highlighted">
+    <div class="container">
+        <?php echo $this->headTitle('Services'); ?>
+        <div class="header">
+            <?php
+            $service = $this->service;
+
+            echo $this->headTitle('Service - ' . $service['title']);
+            ?>
+            <h2 class="page-title">
+                <span>Services</span> 
+                <small><?php echo $this->escape('Service - ' . $service['title']); ?></small>
+            </h2>
+        </div>
+    </div>
+		</div>
+<div id="content">
+    <div class="container">
+        <!-- Services -->
+        <div class="block services">
+            <ul class="thumbnails row">
+
+                <li class="col-md-3">
+                    <h3 class="title">
+                        <i class="<?php echo $this->escape($service['icon']); ?>  icon-small icon-inverse-80 _icon-circle"></i> <?php echo $this->escape($service['title']); ?>
+                    </h3>
+                    <p><?php echo $this->escape($service['description']); ?></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
