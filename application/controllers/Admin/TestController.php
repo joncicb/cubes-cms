@@ -10,7 +10,9 @@ class Admin_TestController extends Zend_Controller_Action
     public function jsintroAction(){
         
     }
-    
+    public function jqueryAction(){
+        
+    }
     
     
 }

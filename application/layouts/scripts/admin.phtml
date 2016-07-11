@@ -85,9 +85,6 @@ $user = Zend_Auth::getInstance()->getIdentity();
                         <li>
                             <a href="<?php echo $this->url(array('controller'=>'admin_members'), "default", true); ?>"><i class="fa fa-table fa-fw"></i> Members</a>
                         </li>
-                        <li>
-                            <a href="<?php echo $this->url(array('controller'=>'admin_services'), "default", true); ?>"><i class="glyphicon glyphicon-tasks"></i> Services</a>
-                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -124,7 +121,7 @@ $user = Zend_Auth::getInstance()->getIdentity();
 
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo $this->baseUrl('/admin/dist/js/sb-admin-2.js');?>"></script>
-
+    <?php echo $this->inlineScript(); ?>
 </body>
 
 </html>
