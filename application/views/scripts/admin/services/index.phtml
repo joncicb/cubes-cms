@@ -49,8 +49,8 @@ $this->headTitle('Services');
 									<a 
                                                                                 href="<?php echo $this->url(array('controller' =>'admin_services', 'action'=>'edit', 'id'=>$service['id']), 'default', true) ?>"
                                                                             type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
-									<button data-serviceId="<?php echo $this->escape($service['id']); ?>" data-action="enable" type="button" class="btn btn-default" title="enable"><i class="glyphicon glyphicon-ok"></i></button>
-                                                                        <button data-serviceId="<?php echo $this->escape($service['id']); ?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
+									<button data-serviceName="<?php echo $service['title'];?>" data-serviceId="<?php echo $this->escape($service['id']); ?>" data-action="enable" type="button" class="btn btn-default" title="enable"><i class="glyphicon glyphicon-ok"></i></button>
+                                                                        <button data-serviceName="<?php echo $service['title'];?>" data-serviceId="<?php echo $this->escape($service['id']); ?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
 								</div>
 							</td>
 						</tr>
@@ -71,8 +71,8 @@ $this->headTitle('Services');
 									<a 
                                                                            href="<?php echo $this->url(array('controller' =>'admin_services', 'action'=>'edit', 'id'=>$service['id']), 'default', true) ?>"
                                                                            type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
-									<button data-serviceId="<?php echo $this->escape($service['id']); ?>" data-action="disable" type="button" class="btn btn-default" title="disable"><i class="glyphicon glyphicon-remove"></i></button>
-                                                                        <button data-serviceId="<?php echo $this->escape($service['id']); ?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
+									<button data-serviceName="<?php echo $service['title'];?>" data-serviceId="<?php echo $this->escape($service['id']); ?>" data-action="disable" type="button" class="btn btn-default" title="disable"><i class="glyphicon glyphicon-remove"></i></button>
+                                                                        <button data-serviceName="<?php echo $service['title'];?>" data-serviceId="<?php echo $this->escape($service['id']); ?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
 								</div>
 							</td>
 						</tr>
@@ -99,7 +99,7 @@ $this->headTitle('Services');
         <h4 class="modal-title">Delete service</h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to delete service?</p>
+        <p>Are you sure you want to delete service  <span id="delete-service"></span>?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -118,7 +118,7 @@ $this->headTitle('Services');
         <h4 class="modal-title">Disable service</h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to disable service?</p>
+        <p>Are you sure you want to disable service <span id="disable-service"></span>?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -137,7 +137,7 @@ $this->headTitle('Services');
         <h4 class="modal-title">Enable service</h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to enable service?</p>
+        <p>Are you sure you want to enable service <span id="enable-service"></span>?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -157,13 +157,14 @@ $this->headTitle('Services');
     var target = $(this).is('[data-action="delete"]') ? $(this) : $(this).closest('[data-action="delete"]');
     
     var serviceId = target.attr('data-serviceId');
-    
+    var serviceName = target.attr('data-serviceName');
     //get data- attributes
     //var serviceId = target.data('serviceId');
     //alert(serviceId);
     
     //.val je funkcija za dodeljivanje vrednosti elemenata forme u ovom slucaju za polje sa nazivom "id"
     $('#delete-warning-dialog').find('[name="id"]').val(serviceId);
+    $('#delete-service').text(serviceName);
     $('#delete-warning-dialog').modal('show');
  });   
 $('#rows-table').on('click', '[data-action="disable"]', function(e) {
@@ -175,13 +176,14 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
     var target = $(this).is('[data-action="disable"]') ? $(this) : $(this).closest('[data-action="disable"]');
     
     var serviceId = target.attr('data-serviceId');
-    
+    var serviceName = target.attr('data-serviceName');
     //get data- attributes
     //var serviceId = target.data('serviceId');
     //alert(serviceId);
     
     //.val je funkcija za dodeljivanje vrednosti elemenata forme u ovom slucaju za polje sa nazivom "id"
     $('#disable-warning-dialog').find('[name="id"]').val(serviceId);
+    $('#disable-service').text(serviceName);
     $('#disable-warning-dialog').modal('show');
  });
  $('#rows-table').on('click', '[data-action="enable"]', function(e) {
@@ -193,13 +195,14 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
     var target = $(this).is('[data-action="enable"]') ? $(this) : $(this).closest('[data-action="enable"]');
     
     var serviceId = target.attr('data-serviceId');
-    
+    var serviceName = target.attr('data-serviceName');
     //get data- attributes
     //var serviceId = target.data('serviceId');
     //alert(serviceId);
     
     //.val je funkcija za dodeljivanje vrednosti elemenata forme u ovom slucaju za polje sa nazivom "id"
     $('#enable-warning-dialog').find('[name="id"]').val(serviceId);
+    $('#enable-service').text(serviceName);
     $('#enable-warning-dialog').modal('show');
  });
 
