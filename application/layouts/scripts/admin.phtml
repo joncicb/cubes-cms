@@ -61,8 +61,8 @@ $user = Zend_Auth::getInstance()->getIdentity();
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#">
-                            Signed in as <strong><?php echo $this->escape($user['username']) ?></strong>
-                            <li class="divider"></li></a>
+                                Signed in as <strong><?php echo $this->escape($user['username']) ?></strong></a></li>
+                        <li class="divider"></li>
                         <li><a href="<?php echo $this->url(array('controller' =>'admin_profile', 'action'=>'edit'), 'default', true); ?>"><i class="fa fa-user fa-fw"></i> Edit Profile</a>
                         </li>
                         <li><a href="<?php echo $this->url(array('controller' =>'admin_profile', 'action'=>'changepassword'), 'default', true); ?>"><i class="fa fa-key fa-fw"></i> Change Profile</a>
@@ -124,7 +124,7 @@ $user = Zend_Auth::getInstance()->getIdentity();
 
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo $this->baseUrl('/admin/dist/js/sb-admin-2.js');?>"></script>
-
+    <?php echo $this->inlineScript(); ?>
 </body>
 
 </html>
