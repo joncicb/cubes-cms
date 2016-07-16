@@ -79,4 +79,12 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract {
             'status' =>  self::STATUS_ENABLED
         ),'id = ' . $id);
     }
+    
+    public function updateOrderOfServices($sortedIds){
+        foreach($sortedIds as $orderNumber => $id){
+            $this->update(array(
+            'order_number' =>  $orderNumber + 1 // +1 because order_number starts from 1, not from 0 
+        ),'id = ' . $id);
+        }
+    }
 }

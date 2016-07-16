@@ -282,4 +282,65 @@ class Admin_ServicesController extends Zend_Controller_Action
                             ), 'default', true);
         } 
     }
+    
+    public function updateorderAction(){
+       $request = $this->getRequest(); //dohvatamo request objekat
+        
+        if(!$request->isPost() || $request->getPost('task') != 'saveOrder'){
+            //request is not post
+            //or task is not saveOrder
+            //redirect to index page
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+                    ->gotoRoute(array(
+                        'controller' => 'admin_services',
+                        'action' => 'index'
+                            ), 'default', true);
+        }
+        $flashMessenger = $this->getHelper('FlashMessenger'); 
+        
+        try{
+           $sortedIds =  $request->getPost('sorted_ids'); //iscitavamo parametar id filtriramo ga da bude int
+
+            if(empty($sortedIds)){
+                
+                throw new Application_Model_Exception_InvalidInput('Sorted ids are not sent');
+                
+            }
+            $sortedIds = trim($sortedIds, ' ,');
+            
+            
+            
+            if(!preg_match('/^[0-9]+(,[0-9]+)*$/', $sortedIds)){
+                throw new Application_Model_Exception_InvalidInput('Invalid sorted ids: ' . $sortedIds);
+            }
+            
+            $sortedIds = explode(',', $sortedIds);
+            
+            $cmsServicesTable = new Application_Model_DbTable_CmsServices();
+            
+            $cmsServicesTable->updateOrderOfServices($sortedIds);
+            
+            $flashMessenger->addMessage('Order is successfully saved', 'success');
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+                    ->gotoRoute(array(
+                        'controller' => 'admin_services',
+                        'action' => 'index'
+                            ), 'default', true);
+            
+            
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+                    ->gotoRoute(array(
+                        'controller' => 'admin_services',
+                        'action' => 'index'
+                            ), 'default', true);
+        }
+    }
 }
