@@ -54,11 +54,51 @@ class Admin_MembersController extends Zend_Controller_Action {
 
                 //get form data
                 $formData = $form->getValues(); //ovo treba da se upise u bazu(podaci iz forme)
+                
+                
+                //remove key member_photo form because there is no column member_photo in cms_member
+                unset($formData['member_photo']);
                 //die(print_r($formData, true));
                 $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
-                $cmsMembersTable->insertMember($formData);
+                
+                
+                
+                //insert member returns ID of the new member
+                $memberId =  $cmsMembersTable->insertMember($formData);
 
-
+                
+                if($form->getElement('member_photo')->isUploaded()) {
+                //photo is uploaded
+                    $fileInfos = $form->getElement('member_photo')->getFileInfo('member_photo');
+                    $fileInfo=$fileInfos['member_photo'];
+                    
+                    try{
+                      //open uploaded photo in temporary directory
+                     $memberPhoto = Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
+                     //dimenzionise sliku
+                     $memberPhoto->fit(150, 150);
+                     
+                     $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $memberId . '.jpg');
+                     
+                    } catch (Exception $ex) {
+                        $flashMessenger->addMessage('Member has been saved, but error occured during image processing', 'errors'); //u sesiju upisujemo poruku member has been saved
+                //redirect to same or another page
+                        $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+                        $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+                            ->gotoRoute(array(
+                                'controller' => 'admin_members',
+                                'action' => 'edit',
+                                'id' => $memberId
+                                    ), 'default', true);  
+                    }
+                    
+//                    print_r($fileInfo);
+//                    die();
+                    
+                    //isto kao $fileInfo=$_FILES['member_photo'];
+                }
+                
+                
                 // do actual task
                 //save to database etc
                 //set system message
@@ -108,7 +148,7 @@ class Admin_MembersController extends Zend_Controller_Action {
 
         //default form data
         $form->populate($member);
-
+        
 
 
         if ($request->isPost() && $request->getPost('task') === 'update') {//ovo znaci ukoliko je forma pokrenuta da li je form zahtev POST i da li je yahtev pokrenut na formi, asocijativni niz ciji su kljucevi atributi iz polja forme a vrednosti unos korisnika u formu
@@ -124,8 +164,30 @@ class Admin_MembersController extends Zend_Controller_Action {
                 //die(print_r($formData, true));
                 //$cmsMembersTable = new Application_Model_DbTable_CmsMembers();
                 //$cmsMembersTable->insert($formData);
-                //Radimo update postojeceg zapisa u tabeli
+                
+                unset($formData['member_photo']);
 
+                if($form->getElement('member_photo')->isUploaded()) {
+                //photo is uploaded
+                    $fileInfos = $form->getElement('member_photo')->getFileInfo('member_photo');
+                    $fileInfo=$fileInfos['member_photo'];
+                    
+                    try{
+                      //open uploaded photo in temporary directory
+                     $memberPhoto = Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
+                     //dimenzionise sliku
+                     $memberPhoto->fit(150, 150);
+                     
+                     $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $member['id'] . '.jpg');
+                     
+                    } catch (Exception $ex) {
+                        
+                        throw new Application_Model_Exception_InvalidInput('Error occured during image processing');
+                        
+                    }
+                }
+                //Radimo update postojeceg zapisa u tabeli
+               
                 $cmsMembersTable->updateMember($member['id'], $formData);
 
                 // do actual task

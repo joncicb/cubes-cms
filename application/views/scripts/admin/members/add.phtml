@@ -23,7 +23,7 @@ $form->setElementDecorators(array('ViewHelper'));//za ispis gresaka u formi
                 
 </div></div>
             <div class="panel-body">
-               <form class="form-horizontal" method="post" action="">
+               <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
                    <input type="hidden" name="task" value="save">
 <fieldset>
 
@@ -148,6 +148,21 @@ $form->setElementDecorators(array('ViewHelper'));//za ispis gresaka u formi
         <?php if ($form->getElement('resume')->hasErrors()) { ?>
             <div class="has-error">
                 <?php foreach ($form->getElement('resume')->getMessages() as $message) { ?>
+                    <p class="help-block"><?php echo $this->escape($message); ?></p>
+                <?php } ?>
+            </div>
+        <?php } ?>  
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-md-4 control-label" for="member_photo">Photo</label>
+    <div class="col-md-4">                     
+        <input type="file" name="member_photo" id="member_photo" class="form-control input-md">
+    </div>
+    <div class="col-md-4">
+        <?php if ($form->getElement('member_photo')->hasErrors()) { ?>
+            <div class="has-error">
+                <?php foreach ($form->getElement('member_photo')->getMessages() as $message) { ?>
                     <p class="help-block"><?php echo $this->escape($message); ?></p>
                 <?php } ?>
             </div>

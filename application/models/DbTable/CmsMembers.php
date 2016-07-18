@@ -51,6 +51,25 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
        //fetch order number of new member
         
         
+        $select = $this->select();
+        
+        //Sort rows by order_number Descending and fetch one row from the top
+        $select->order('order_number DESC');
+        
+        $this->fetchRow($select);
+        
+        $memberWithBiggestOrderNumber = $this->fetchRow($select);
+        
+        if($memberWithBiggestOrderNumber instanceof Zend_Db_Table_Row){
+            
+            $member['order_number'] = $memberWithBiggestOrderNumber['order_number'] + 1;
+        }else {
+            // table was empty, we are inserting first member
+            $member['order_number'] = 1;
+        }
+        
+        
+        
         $id = $this->insert($member);
         
         return $id;
@@ -60,6 +79,14 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
      * @param int $id ID of member to delete
      */
     public function deleteMember($id){
+        
+        //member who is going to be deleted
+        $member = $this->getMemberById($id);
+        
+        $this->update(array(
+            'order_number' => new Zend_Db_Expr('order_number -1')  
+        ), 
+            'order_number > ' . $member['order_number']);
         
         $this->delete('id = ' . $id);
     }
@@ -88,4 +115,5 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
         ),'id = ' . $id);
         }
     }
+   
 }
