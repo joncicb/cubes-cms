@@ -68,6 +68,7 @@ $user = Zend_Auth::getInstance()->getIdentity();
                         <li><a href="<?php echo $this->url(array('controller' =>'admin_profile', 'action'=>'changepassword'), 'default', true); ?>"><i class="fa fa-key fa-fw"></i> Change Profile</a>
                         </li><li class="divider"></li>
                         <li><a href="<?php echo $this->url(array('controller' =>'admin_session', 'action'=>'logout'), 'default', true); ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -86,7 +87,10 @@ $user = Zend_Auth::getInstance()->getIdentity();
                             <a href="<?php echo $this->url(array('controller'=>'admin_members'), "default", true); ?>"><i class="fa fa-table fa-fw"></i> Members</a>
                         </li>
                         <li>
-                            <a href="<?php echo $this->url(array('controller'=>'admin_services'), "default", true); ?>"><i class="glyphicon glyphicon-tasks"></i> Services</a>
+                            <a href="<?php echo $this->url(array('controller'=>'admin_services'), "default", true); ?>"><i class="fa fa-cog fa-fw"></i> Services</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->url(array('controller'=>'admin_users'), "default", true); ?>"><i class="fa fa-user fa-fw"></i> Users</a>
                         </li>
                     </ul>
                 </div>
