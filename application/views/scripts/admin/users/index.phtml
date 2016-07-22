@@ -176,11 +176,18 @@ $this->headTitle('Users');
   </div><!-- /.modal-dialog -->
 </form><!-- /.modal -->
 
-<?php
-$this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/jquery-ui-1.12.0/jquery-ui.min.css'));
-$this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/jquery-ui-1.12.0/jquery-ui.min.js'));
-?>
+<!--//
+//$this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/jquery-ui-1.12.0/jquery-ui.min.css'));
+//$this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/jquery-ui-1.12.0/jquery-ui.min.js'));
+//-->
 
+ <?php
+ $this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css'));
+ $this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-responsive/css/dataTables.responsive.css'));
+ $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/datatables/media/js/jquery.dataTables.min.js'));
+ $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'));
+ $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/datatables-responsive/js/dataTables.responsive.js'));
+ ?>
 <script>
 <?php $this->inlineScript()->captureStart(); ?>
 
@@ -244,6 +251,15 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
         $('#reset-password-warning-dialog').modal('show');
         
     });
- 
+   
+    $('#rows-table').dataTable({
+        columnDefs:[
+            {targets: [0, 5], orderable: false, searchable: false}
+        ],
+        order:[
+            [2, 'asc']
+        ],
+        lengthMenu: [ 3, 5, 10, 20, 50, 100 ]
+    });
  <?php $this->inlineScript()->captureEnd(); ?> 
 </script>

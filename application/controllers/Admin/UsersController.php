@@ -9,8 +9,21 @@ class Admin_UsersController extends Zend_Controller_Action{
             'errors' => $flashMessenger->getMessages('errors')
         );
         $cmsUsersDbTable = new Application_Model_DbTable_CmsUsers();
-        
-        $users = $cmsUsersDbTable->fetchAll()->toArray();
+        $loggedInUser = Zend_Auth::getInstance()->getIdentity();
+        $users = $cmsUsersDbTable->search(array(
+            'filters'=>array(
+            //'id_exclude'=>array(2,3,9)   
+            // 'password' => Application_Model_DbTable_CmsUsers::DEFAULT_PASSWORD
+               'id_exclude' =>$loggedInUser['id']
+            ),
+            'orders'=>array(
+                //'status'=>'ASC',
+                'first_name'=>'ASC'
+            ),
+            //'limit' => 3,
+            //'page' =>2
+            
+        ));
         
         $this->view->users = $users;//prosledjujemo prezentacionoj logici
        
@@ -347,7 +360,16 @@ class Admin_UsersController extends Zend_Controller_Action{
 
                 throw new Application_Model_Exception_InvalidInput('No user is found with id: ' . $id);
             }
-
+             $loggedInUser = Zend_Auth::getInstance()->getIdentity();
+            
+            if( $id == $loggedInUser['id']) {
+                $redirector = $this->getHelper('Redirector');
+                $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_profile',
+                        'action' => 'changepassword'
+                        ), 'default', true);
+            }
             $cmsUsersTable->resetPassword($id);
 
             $flashMessenger->addMessage('Password is successfully reseted to default value for user: ' . $user['username'], 'success');
@@ -371,6 +393,7 @@ class Admin_UsersController extends Zend_Controller_Action{
                             ), 'default', true);
         }
     }
+    
 
 }
 
