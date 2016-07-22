@@ -51,8 +51,9 @@ $this->headTitle('Users');
 									<a 
 										href="<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'edit', 'id' => $user['id']), 'default', true);?>"
 										type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
-									<button type="button" class="btn btn-default" title="enable"><i class="glyphicon glyphicon-ok"></i></button>
-									<button data-user-id="<?php echo $this->escape($user['id']);?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
+									<button data-user-name="<?php echo $this->escape($user['first_name']) . " " . $this->escape($user['last_name']);?>" data-user-id="<?php echo $this->escape($user['id']);?>" data-action="enable" type="button" class="btn btn-default" title="enable"><i class="glyphicon glyphicon-ok"></i></button>
+                                                                        <button data-user-name="<?php echo $this->escape($user['first_name']) . " " . $this->escape($user['last_name']);?>" data-user-id="<?php echo $this->escape($user['id']);?>" data-action="reset-password" type="button" class="btn btn-default" title="reset"><i class="fa fa-unlock-alt"></i></button>
+									<button data-user-name="<?php echo $this->escape($user['first_name']) . " " . $this->escape($user['last_name']);?>" data-user-id="<?php echo $this->escape($user['id']);?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
 								
 								</div>
 							</td>
@@ -71,8 +72,9 @@ $this->headTitle('Users');
 									<a 
 										href="<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'edit', 'id' => $user['id']), 'default', true);?>"
 										type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
-									<button type="button" class="btn btn-default" title="disable"><i class="glyphicon glyphicon-remove"></i></button>
-									<button data-user-id="<?php echo $this->escape($user['id']);?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
+									<button data-user-name="<?php echo $this->escape($user['first_name']) . " " . $this->escape($user['last_name']);?>" data-user-id="<?php echo $this->escape($user['id']);?>" data-action="disable" type="button" class="btn btn-default" title="disable"><i class="glyphicon glyphicon-remove"></i></button>
+                                                                        <button data-user-name="<?php echo $this->escape($user['first_name']) . " " . $this->escape($user['last_name']);?>" data-user-id="<?php echo $this->escape($user['id']);?>" data-action="reset-password" type="button" class="btn btn-default" title="reset"><i class="fa fa-unlock-alt"></i></button>
+									<button data-user-name="<?php echo $this->escape($user['first_name']) . " " . $this->escape($user['last_name']);?>" data-user-id="<?php echo $this->escape($user['id']);?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
 								
 								</div>
 							</td>
@@ -94,3 +96,154 @@ $this->headTitle('Users');
 		</div>
 	</div>
 </div>
+<form method="post" action="<?php echo $this->url(array('controller'=>'admin_users', 'action'=>'delete'), 'default', true); ?>" id="delete-warning-dialog" class="modal fade" tabindex="-1" role="dialog">
+    <input type="hidden" name="task" value="delete">
+    <input type="hidden" name="id" value="">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Delete user</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete user <span id="delete-user"></span>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-trash"></i>Delete</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</form><!-- /.modal -->
+<form method="post" action="<?php echo $this->url(array('controller'=>'admin_users', 'action'=>'disable'), 'default', true); ?>" id="disable-warning-dialog" class="modal fade" tabindex="-1" role="dialog">
+    <input type="hidden" name="task" value="disable">
+    <input type="hidden" name="id" value="">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Disable user</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to disable user <span id="disable-user"></span>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i>Disable</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</form><!-- /.modal -->
+
+
+<form method="post" action="<?php echo $this->url(array('controller'=>'admin_users', 'action'=>'enable'), 'default', true); ?>" id="enable-warning-dialog" class="modal fade" tabindex="-1" role="dialog">
+    <input type="hidden" name="task" value="enable">
+    <input type="hidden" name="id" value="">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Enable user</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to enable user <span id="enable-user"></span>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-ok"></i>Enable</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</form><!-- /.modal -->
+
+<form id="reset-password-warning-dialog" class="modal fade" tabindex="-1" role="dialog" method="post" action="<?php echo $this->url( array('controller' => 'admin_users', 'action' => 'resetPassword'), 'default', true) ;?>">
+    <input type="hidden" name="task" value="reset">
+    <input type="hidden" name="id" value="">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Reset user password</h4>
+      </div>
+      <div class="modal-body">
+          <p>Are you sure you want to reset password of the user <span id="reset-password-user"></span>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger">Reset</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</form><!-- /.modal -->
+
+<?php
+$this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/jquery-ui-1.12.0/jquery-ui.min.css'));
+$this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/jquery-ui-1.12.0/jquery-ui.min.js'));
+?>
+
+<script>
+<?php $this->inlineScript()->captureStart(); ?>
+
+
+ $('#rows-table').on('click', '[data-action="delete"]', function(e) {
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    //calculate target element
+    var target = $(this).is('[data-action="delete"]') ? $(this) : $(this).closest('[data-action="delete"]');
+    
+    var userId = target.attr('data-user-id');
+    var userName = target.attr('data-user-name');
+    //.val je funkcija za dodeljivanje vrednosti elemenata forme u ovom slucaju za polje sa nazivom "id"
+    $('#delete-warning-dialog').find('[name="id"]').val(userId);
+    $('#delete-user').text(userName);
+    $('#delete-warning-dialog').modal('show');
+ });   
+$('#rows-table').on('click', '[data-action="disable"]', function(e) {
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    //calculate target element
+    var target = $(this).is('[data-action="disable"]') ? $(this) : $(this).closest('[data-action="disable"]');
+    var userName = target.attr('data-user-name'); 
+    var userId = target.attr('data-user-id');
+
+    //.val je funkcija za dodeljivanje vrednosti elemenata forme u ovom slucaju za polje sa nazivom "id"
+    $('#disable-warning-dialog').find('[name="id"]').val(userId);
+    $('#disable-user').text(userName);
+    $('#disable-warning-dialog').modal('show');
+ });
+ $('#rows-table').on('click', '[data-action="enable"]', function(e) {
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    //calculate target element
+    var target = $(this).is('[data-action="enable"]') ? $(this) : $(this).closest('[data-action="enable"]');
+    var userName = target.attr('data-user-name');
+    var userId = target.attr('data-user-id');
+
+    //.val je funkcija za dodeljivanje vrednosti elemenata forme u ovom slucaju za polje sa nazivom "id"
+    $('#enable-warning-dialog').find('[name="id"]').val(userId);
+    $('#enable-user').text(userName);
+    $('#enable-warning-dialog').modal('show');
+ });
+ 
+  $('#rows-table').on('click', '[data-action="reset-password"]', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var target = $(this).is('[data-action="reset-password"]') ? $(this) : $(this).closest('[data-action="reset-password"]');
+        
+        var userId = target.attr('data-user-id');
+        var userName = target.attr('data-user-name');
+        $('#reset-password-warning-dialog [name = "id"] ').val(userId);
+        $('#reset-password-user').text(userName);
+        $('#reset-password-warning-dialog').modal('show');
+        
+    });
+ 
+ <?php $this->inlineScript()->captureEnd(); ?> 
+</script>

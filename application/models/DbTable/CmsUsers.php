@@ -57,12 +57,56 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract
     }
     /**
      * @param type int $id
-     * @param string $newPassword Plain password, noy hashed
+     * @param string $newPassword Plain password, not hashed
      */
     public function changeUserPassword($id, $newPassword)
     {
         //update "password" column, set md5 value bof new password, for user with id = $id
         $this->update(array('password'=> md5($newPassword)), 'id = ' . $id);
     }
+      /**
+     * 
+     * @param int $id Id of the user to delete
+     */
+    public function deleteUser($id){
+        
+        //user who is going to be deleted
+        $user = $this->getUserById($id);
+        
+        $this->update(array(
+            'order_number' => new Zend_Db_Expr('order_number -1')  
+        ), 
+            'order_number > ' . $user['order_number']);
+        
+        $this->delete('id = ' . $id);
+    }
+    /**
+     * 
+     * @param int $id ID of user to disable
+     */
+    public function disableUser($id){
+        $this->update(array(
+            'status' =>  self::STATUS_DISABLED
+        ),'id = ' . $id);
+    }
+    /**
+     * 
+     * @param int $id ID of user to enable
+     */
+    public function enableUser($id){
+        $this->update(array(
+            'status' =>  self::STATUS_ENABLED
+        ),'id = ' . $id);
+    }
+        /**
+         * 
+         * @param int $id ID of user to reset password
+         * 
+         */
+        public function resetPassword($id){
+            $this->update(array(
+                'password' => md5(self::DEFAULT_PASSWORD)
+                ),'id = ' . $id);
+        }
     
     }
