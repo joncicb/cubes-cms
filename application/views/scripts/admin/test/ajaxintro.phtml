@@ -1,0 +1,97 @@
+<?php
+Zend_Layout::getMvcInstance()->disableLayout();//disableovanje layouta
+?>
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+	<h1>Choose your car brand/model</h1>
+	<form action="" method="post">
+		<p>
+		<label>Brand</label>
+		<select id="car-brand">
+			<option value="">--- Choose Brand ---</option>
+                        
+		</select>
+		</p>
+		<p>
+		<label>Model</label>
+		<select id="car-model">
+			<option value="">--- Choose Model ---</option>
+		</select>
+		</p>
+	</form>
+        <script src="<?php echo $this->baseUrl('/admin/bower_components/jquery/dist/jquery.min.js') ?>"></script>
+        <script>
+        $('#car-brand').on('change', function(e) {
+            
+            //e.preventDefault();
+            //e.stopPropagation();
+            
+            var target = $(this).is('#car-brand') ? $(this) : $(this).closest('#car-brand');
+            
+            var brand = target.val();//dobijamo sta smo izabrali u select boxu
+            
+            var modelSelect = $('#car-model');
+            //clear element inner html
+            modelSelect.empty();
+            //ovim se postavlja na pocetno default stanje
+            modelSelect.append('<option value="">--- Choose Model ---</option>');
+            
+            if(brand) {
+                $.ajax ({
+                    url: '/uploads/cars/' + brand + '.json',
+                    cache:false
+                }).done(function(data) {
+                    for(var index in data){
+                        var model = data[index];
+                        var selectOption = $('<option></option>');
+                        selectOption.attr('value', model.value);
+                        selectOption.html(model.label);
+                        //selectOption.text(modrl.label);//interpretira se kao text
+                        modelSelect.append(selectOption);
+                    }
+                    
+                }).fail(function() {
+                    
+                    alert('Unable to load models for brand');
+                    
+                }).always(function() {
+                    
+                });
+            }
+            
+        });
+        
+    
+        //$.ajax('/test.html',{});
+        $.ajax({//pozivanje izvrsavanja ajaxa
+            url:'<?php echo $this->url(array('controller' => 'admin_test', 'action' => 'ajaxbrands'), 'default', true)?>',
+            cache:false
+        //on successful ajax page load data done se izvrsava ukoliko je ajax uspesno izvrsenpodaci koje ucitavamo textStatus obavestenje o stranici 404 ili 200 ili poseban status 201 nas kad ga mi napravimo jqXHR ajax zahtev
+      }).done(function(data, textStatus, jqXHR) {
+        for(var index in data) {
+            
+            var brand = data[index];
+            
+            var selectOption = $('<option></option>');//moguce je pisati i HTML(option tag u ovom slucaju) u JQUERY funkciji
+            selectOption.attr('value', brand.value);
+            selectOption.html(brand.label);
+            
+            $('#car-brand').append(selectOption);
+        }
+        //console.log(data);
+        //$('#car-brand').append(data); 
+        
+      })
+        //ukoliko dodje do greske pri ucitavanju stranice fail se izvrsava ukoliko ajax nije izvrsen
+        .fail(function(jqXHR, textStatus, errorThrown){
+           alert('Error ocurred while loading car brands'); 
+        })
+        //for action that do not depend on result
+        .always(function() {
+            
+        });
+        </script>
+</body>
+</html>
