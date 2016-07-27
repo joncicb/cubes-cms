@@ -56,7 +56,7 @@ class Admin_TestController extends Zend_Controller_Action
         //set content type  as json instead of html
       //  header('Content-Type: application/json');
         
-     //   echo json_encode($brandsJson);
+     //   echo json_encode($brandsJson);//konvertuje u json format u javascript da koristimo u ajaxu
         
      $this->getHelper('Json')->sendJson($brandsJson);//ovaj helper radi sve ovo prethodno
         
@@ -83,13 +83,23 @@ class Admin_TestController extends Zend_Controller_Action
 	)
         );
         
-        $request -= $this->getRequest();
+        $request = $this->getRequest();
         
         $brand = $request->getParam('brand');
         
         if(!isset($brands[$brand])) {
             throw new Zend_Controller_Router_Exception('Unknown brand', 404);
         }
+        $models = $brands[$brand];
         
+        $modelsJson= array();
+        
+        foreach($models as $modelId => $modelLabel){
+            $modelsJson[] = array(
+                'value'=>$modelId,
+                'label'=>$modelLabel
+            );
+        }
+        $this->getHelper('Json')->sendJson($modelsJson);
     }
 }

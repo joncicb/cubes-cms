@@ -80,6 +80,13 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
      */
     public function deleteMember($id){
         
+        $memberPhotoFilePath = PUBLIC_PATH . '/uploads/members/' . $id . '.jpg';
+        //preneti u clients!!!!
+        if(is_file($memberPhotoFilePath)){
+            //delete member photo file
+            unlink($memberPhotoFilePath);
+        }
+        
         //member who is going to be deleted
         $member = $this->getMemberById($id);
         

@@ -179,7 +179,7 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract
         
         $select->reset('columns');
         
-        $select->columns('COUNT(*) as total');
+        $select->from($this->_name ,'COUNT(*) as total');
         
         $row = $this->fetchRow($select);
         

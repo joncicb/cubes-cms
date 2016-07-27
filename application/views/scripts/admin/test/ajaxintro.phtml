@@ -40,7 +40,11 @@ Zend_Layout::getMvcInstance()->disableLayout();//disableovanje layouta
             
             if(brand) {
                 $.ajax ({
-                    url: '/uploads/cars/' + brand + '.json',
+                    url: '<?php echo $this->url(array('controller' => 'admin_test', 'action' => 'ajaxmodels'), 'default', true)?>',
+                    data:{
+                        "brand": brand
+                    },
+                    method: "post",
                     cache:false
                 }).done(function(data) {
                     for(var index in data){
@@ -67,7 +71,7 @@ Zend_Layout::getMvcInstance()->disableLayout();//disableovanje layouta
         //$.ajax('/test.html',{});
         $.ajax({//pozivanje izvrsavanja ajaxa
             url:'<?php echo $this->url(array('controller' => 'admin_test', 'action' => 'ajaxbrands'), 'default', true)?>',
-            cache:false
+            cache:false//ne kesiraj odgovor vec daj najsveziju informaciju
         //on successful ajax page load data done se izvrsava ukoliko je ajax uspesno izvrsenpodaci koje ucitavamo textStatus obavestenje o stranici 404 ili 200 ili poseban status 201 nas kad ga mi napravimo jqXHR ajax zahtev
       }).done(function(data, textStatus, jqXHR) {
         for(var index in data) {

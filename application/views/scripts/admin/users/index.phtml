@@ -32,7 +32,7 @@ $this->headTitle('Users');
 							<th>First Name</th>
 							<th>Last Name</th>
 							<th>Email</th>
-							<th>#</th>
+							<th class="text-center">#</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -183,7 +183,7 @@ $this->headTitle('Users');
 
  <?php
  $this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css'));
- $this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-responsive/css/dataTables.responsive.css'));
+ //$this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-responsive/css/dataTables.responsive.css'));
  $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/datatables/media/js/jquery.dataTables.min.js'));
  $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'));
  $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/datatables-responsive/js/dataTables.responsive.js'));
@@ -254,12 +254,15 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
    
     $('#rows-table').dataTable({
         columnDefs:[
-            {targets: [0, 5], orderable: false, searchable: false}
+            {targets: [5], orderable: false, searchable: false}
         ],
         order:[
             [2, 'asc']
         ],
-        lengthMenu: [ 3, 5, 10, 20, 50, 100 ]
+        lengthMenu: [ 3, 5, 10, 20, 50, 100 ],
+        serverSide: true,//na svako klik vrati informaciju
+        processing:true,
+        ajax: "<?php echo $this->url(array('controller' =>'admin_users', 'action'=>'datatable'),'default', true); ?>"//gde pitamo server
     });
  <?php $this->inlineScript()->captureEnd(); ?> 
 </script>
