@@ -7,16 +7,17 @@
                 <!-- /.col-lg-12 -->
             </div>
 			<div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" id="members">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
+                                    <a href="../test/ajaxintro.phtml"></a>
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">26</div>
-                                    <div>New Comments!</div>
+                                    <div>Members total/active</div>
                                 </div>
                             </div>
                         </div>
@@ -29,7 +30,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" id="clients">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -38,7 +39,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">12</div>
-                                    <div>New Tasks!</div>
+                                    <div>Clients total/active</div>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +52,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" id="services">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
@@ -60,7 +61,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div>Services total/active</div>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +74,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-3 col-md-6" id="users">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
@@ -82,7 +83,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
+                                    <div>Users total/active</div>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +97,30 @@
                     </div>
                 </div>
             </div>
+
+<script>
+<?php $this->inlineScript()->captureStart();?>
+        $.ajax({//pozivanje izvrsavanja ajaxa
+            url:'<?php echo $this->url(array('controller' => 'admin_members', 'action' => 'dashboard'), 'default', true)?>',
+            cache:false//ne kesiraj odgovor vec daj najsveziju informaciju
+        //on successful ajax page load data done se izvrsava ukoliko je ajax uspesno izvrsenpodaci koje ucitavamo textStatus obavestenje o stranici 404 ili 200 ili poseban status 201 nas kad ga mi napravimo jqXHR ajax zahtev
+      }).done(function(data, textStatus, jqXHR) {
+        $('#members').append(data); 
+        }
+        //console.log(data);
+        //$('#car-brand').append(data); 
+        
+      })
+        //ukoliko dodje do greske pri ucitavanju stranice fail se izvrsava ukoliko ajax nije izvrsen
+        .fail(function(jqXHR, textStatus, errorThrown){
+           alert('Error ocurred while loading members'); 
+        })
+        //for action that do not depend on result
+        .always(function() {
+            
+        });    
+<?php $this->inlineScript()->captureEnd();?>
+</script>
 
 
 

@@ -411,6 +411,9 @@ class Admin_ClientsController extends Zend_Controller_Action {
                             ), 'default', true);
         }
     }
+    public function dashboardAction() {
+        
+    }
     
 }
 

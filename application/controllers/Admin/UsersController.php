@@ -481,5 +481,8 @@ class Admin_UsersController extends Zend_Controller_Action {
         $this->view->draw = $draw; //prosledjivanje prezentacionoj logici
         $this->view->columns = $columns;
     }
+    public function dashboardAction() {
+        
+    }
 
 }
