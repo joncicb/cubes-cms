@@ -237,6 +237,28 @@ class Admin_UsersController extends Zend_Controller_Action {
             }
 
             $cmsUsersTable->disableUser($id);
+            
+            
+            $request instanceof Zend_Controller_Request_Http;
+            
+            //ispitivanje da li je request Ajax
+            if($request->isXmlHttpRequest()){
+                //request je Ajax
+                //send response as json
+                
+                $responseJson=array(
+                    'status'=>'ok',
+                    'statusMessage'=>'User ' . $user["first_name"] . ' ' . $user["last_name"] . ' has been disabled.'
+                );
+                
+                //send json as response
+                $this->getHelper('Json')->sendJson($responseJson);
+                
+            }else{
+                //request nije Ajax
+                //send message over session
+                //and do not redirect
+                
             $flashMessenger->addMessage("User " . $user["first_name"] . " " . $user["last_name"] . " has been disabled.", "success");
 
             $redirector = $this->getHelper('Redirector');
@@ -245,8 +267,23 @@ class Admin_UsersController extends Zend_Controller_Action {
                         'controller' => 'admin_users',
                         'action' => 'index'
                             ), 'default', true);
+            }
+            
+            
         } catch (Application_Model_Exception_InvalidInput $ex) {
-
+            if($request->isXmlHttpRequest()){
+                //request is ajax
+                
+                $responseJson = array(
+                    'status'=>'error',
+                    'statusMessage'=>$ex->getMessage()
+                    
+                );
+                //send json as response
+                $this->getHelper('Json')->sendJson($responseJson);
+                
+            }else{
+                //request is not ajax
             $flashMessenger->addMessage($ex->getMessage());
 
             $redirector = $this->getHelper('Redirector');
@@ -255,6 +292,8 @@ class Admin_UsersController extends Zend_Controller_Action {
                         'controller' => 'admin_users',
                         'action' => 'index'
                             ), 'default', true);
+            }
+            
         }
     }
 

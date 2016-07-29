@@ -12,6 +12,21 @@ foreach($this->users as $user){
     
     $row = array();
     
+    $row['DT_RowData']=array(//za data
+        'user-id'=>$user['id'] 
+    );
+    
+    $row['DT_RowAttr']=array(//za atribut rowattr se direktno vidi u htmlu
+        'data-user-id'=>$user['id'] ,
+        'title'=>$user['username']//daje title atribute od $user['username'] predjemo misem preko nekog podatka iz reda i daje username
+    );
+    
+    
+    if($user['status']==Application_Model_DbTable_CmsUsers::STATUS_DISABLED){
+        $row['DT_RowClass']='danger';
+    }
+    
+    
     foreach($this->columns as $columnName){
         
         if($columnName == 'status'){
@@ -23,9 +38,9 @@ foreach($this->users as $user){
             }
             
         }else if ($columnName == 'actions') {
-            $this->placeholder('actions')->exchangeArray(array());
+            $this->placeholder('actions')->exchangeArray(array());//praznjenje placeholdera od htmla
             
-           $this->placeholder('actions')->captureStart();
+           $this->placeholder('actions')->captureStart();//placeholder viewhelper sluzi da uhvatimo neki html i smestaj pod kljucem action placeholder koristimo kada mesamo html i php 
            if($user['status'] == Application_Model_DbTable_CmsUsers::STATUS_ENABLED ){
                ?>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="...">

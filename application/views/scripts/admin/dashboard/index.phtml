@@ -104,7 +104,7 @@
             url:'<?php echo $this->url(array('controller' => 'admin_members', 'action' => 'dashboard'), 'default', true)?>',
             cache:false//ne kesiraj odgovor vec daj najsveziju informaciju
         //on successful ajax page load data done se izvrsava ukoliko je ajax uspesno izvrsenpodaci koje ucitavamo textStatus obavestenje o stranici 404 ili 200 ili poseban status 201 nas kad ga mi napravimo jqXHR ajax zahtev
-      }).done(function(data, textStatus, jqXHR) {
+      }).done(function(data, textStatus, jqXHR) {//u data je html
         $('#members').append(data); 
         }
         //console.log(data);
