@@ -24,17 +24,18 @@ $this->headTitle('Members');
 </div></div>
             <div class="panel-body">
               				<table id="rows-table" class="table table-striped table-hover">
-					<thead>
-                                            <tr>        <th></th>
-							<th class="text-center">Img</th>
-							<th class="text-center">Status</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Work Title</th>
-							<th>Email</th>
-							<th class="text-right">#</th>
-						</tr>
-					</thead>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th class="text-center">Img</th>
+                                                    <th class="text-center">Status</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Work Title</th>
+                                                    <th>Email</th>
+                                                    <th class="text-right">#</th>
+                                                </tr>
+                                            </thead>
 					<tbody>
                                             <?php foreach($this->members as $member){
                                                 if($member['status'] == Application_Model_DbTable_CmsMembers::STATUS_DISABLED){

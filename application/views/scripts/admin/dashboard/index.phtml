@@ -35,11 +35,8 @@
                     
                 }).done (function (data) {
                         
-                        var element = $('#members');
-                        
-                        element.append(data);
-                    
-                    
+                  $('#members').append(data);
+                  
                 }).fail (function () {
                     alert('Unable to load members');
                 }).always(function () {
@@ -53,9 +50,7 @@
                     
                 }).done (function (data) {
                         
-                        var element = $('#services');
-                        
-                        element.append(data);
+                  $('#services').append(data);
                     
                     
                 }).fail (function () {
@@ -71,11 +66,8 @@
                     
                 }).done (function (data) {
                         
-                        var element = $('#users');
-                        
-                        element.append(data);
-                    
-                    
+                 $('#users').append(data);
+                 
                 }).fail (function () {
                     alert('Unable to load users');
                 }).always(function () {
@@ -89,7 +81,7 @@
                     
                 }).done (function (data) {
                         
-                        $('#clients').append(data);
+                  $('#clients').append(data);
                     
                 }).fail (function () {
                     alert('Unable to load clients');
