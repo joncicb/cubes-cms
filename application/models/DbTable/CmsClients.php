@@ -112,7 +112,7 @@ class Application_Model_DbTable_CmsClients extends Zend_Db_Table_Abstract {
         $enabledClients = 0; 
         foreach ($clients as $client) {
             
-            
+            //iteracija za dohvatanje svih statusa enabled iz baze
             if ($client['status'] == self::STATUS_ENABLED) {
                 $enabledClients += 1;
             }
@@ -123,10 +123,11 @@ class Application_Model_DbTable_CmsClients extends Zend_Db_Table_Abstract {
     public function allClients($clients) {
         $allClients =0;
         
-        foreach ($clients as $client){
-            $allClients += 1;
-        }
         
+        foreach ($clients as $client){
+            $allClients += 1;//iteracija za dohvatanje svih redova iz baze
+        }
+        //print_r($allClients);
         return $allClients ;
     }
         

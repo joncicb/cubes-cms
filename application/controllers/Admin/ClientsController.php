@@ -414,15 +414,15 @@ class Admin_ClientsController extends Zend_Controller_Action {
     public function dashboardAction() {
 
         
-        $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
-        $select = $cmsClientsDbTable->select();
-        $clients = $cmsClientsDbTable->fetchAll($select);
+        $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();//novi objekat
+        $select = $cmsClientsDbTable->select();//select tabele iz baze
+        $clients = $cmsClientsDbTable->fetchAll($select);//fetch podataka iz selectovane tabele
         
-        $enabled = $cmsClientsDbTable->enabledClients($clients);
+        $enabled = $cmsClientsDbTable->enabledClients($clients); //pozivanje fj-a iz modela
         $allClients =$cmsClientsDbTable->allClients($clients);
        
        
-                
+        //slanje u prezentacioni deo        
         $this->view->enabledClients = $enabled;
         $this->view->allClients = $allClients;
         
