@@ -345,5 +345,16 @@ class Admin_ServicesController extends Zend_Controller_Action
     }
     public function dashboardAction() {
         
+        $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
+        $select = $cmsServicesDbTable->select();
+        $services = $cmsServicesDbTable->fetchAll($select);
+        
+        $enabled = $cmsServicesDbTable->enabledServices($services);
+        $allServices =$cmsServicesDbTable->allServices($services);
+       
+       
+                
+        $this->view->enabledServices = $enabled;
+        $this->view->allServices = $allServices;
     }
 }

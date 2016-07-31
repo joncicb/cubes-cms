@@ -252,4 +252,27 @@ class Application_Model_DbTable_CmsUsers extends Zend_Db_Table_Abstract
                 } 
                 }
     }
+    public function enabledUsers($users) {
+       
+        $enabledUsers = 0; 
+        
+        foreach ($users as $user) {
+            
+            
+            if ($user['status'] == self::STATUS_ENABLED) {
+                $enabledUsers += 1;
+            }
+        
+        }return $enabledUsers;
+    }
+
+    public function allUsers($users) {
+        $allUsers =0;
+        
+        foreach ($users as $user){
+            $allUsers += 1;
+        }
+        
+        return $allUsers ;
+    }
     }

@@ -1,126 +1,101 @@
-
-
-			<div class="row">
+            <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Dashboard</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-			<div class="row">
+            <div class="row">
                 <div class="col-lg-3 col-md-6" id="members">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <a href="../test/ajaxintro.phtml"></a>
-                                    <i class="fa fa-comments fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
-                                    <div>Members total/active</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
+                    
+                
                 </div>
-                <div class="col-lg-3 col-md-6" id="clients">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>Clients total/active</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+            
                 <div class="col-lg-3 col-md-6" id="services">
-                    <div class="panel panel-yellow">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>Services total/active</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
+                    
                 </div>
+            
+            
                 <div class="col-lg-3 col-md-6" id="users">
-                    <div class="panel panel-red">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Users total/active</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
+                    
+                </div>
+            
+            
+                <div class="col-lg-3 col-md-6" id="clients">
+                    
                 </div>
             </div>
 
 <script>
 <?php $this->inlineScript()->captureStart();?>
-        $.ajax({//pozivanje izvrsavanja ajaxa
-            url:'<?php echo $this->url(array('controller' => 'admin_members', 'action' => 'dashboard'), 'default', true)?>',
-            cache:false//ne kesiraj odgovor vec daj najsveziju informaciju
-        //on successful ajax page load data done se izvrsava ukoliko je ajax uspesno izvrsenpodaci koje ucitavamo textStatus obavestenje o stranici 404 ili 200 ili poseban status 201 nas kad ga mi napravimo jqXHR ajax zahtev
-      }).done(function(data, textStatus, jqXHR) {//u data je html
-        $('#members').append(data); 
-        }
-        //console.log(data);
-        //$('#car-brand').append(data); 
-        
-      })
-        //ukoliko dodje do greske pri ucitavanju stranice fail se izvrsava ukoliko ajax nije izvrsen
-        .fail(function(jqXHR, textStatus, errorThrown){
-           alert('Error ocurred while loading members'); 
-        })
-        //for action that do not depend on result
-        .always(function() {
-            
-        });    
+    
+                $.ajax({
+                    
+                    url: '<?php echo $this->url(array('controller' => 'admin_members', 'action' => 'dashboard'), 'default', true);?>',
+                    cache: false
+                    
+                }).done (function (data) {
+                        
+                        var element = $('#members');
+                        
+                        element.append(data);
+                    
+                    
+                }).fail (function () {
+                    alert('Unable to load members');
+                }).always(function () {
+                    
+                });
+                
+                $.ajax({
+                    
+                    url: '<?php echo $this->url(array('controller' => 'admin_services', 'action' => 'dashboard'), 'default', true);?>',
+                    cache: false
+                    
+                }).done (function (data) {
+                        
+                        var element = $('#services');
+                        
+                        element.append(data);
+                    
+                    
+                }).fail (function () {
+                    alert('Unable to load services');
+                }).always(function () {
+                    
+                });
+                
+                $.ajax({
+                    
+                    url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'dashboard'), 'default', true);?>',
+                    cache: false
+                    
+                }).done (function (data) {
+                        
+                        var element = $('#users');
+                        
+                        element.append(data);
+                    
+                    
+                }).fail (function () {
+                    alert('Unable to load users');
+                }).always(function () {
+                    
+                });
+                
+                $.ajax({
+                    
+                    url: '<?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'dashboard'), 'default', true);?>',
+                    cache: false
+                    
+                }).done (function (data) {
+                        
+                        $('#clients').append(data);
+                    
+                }).fail (function () {
+                    alert('Unable to load clients');
+                }).always(function () {
+                    
+                });
+                
 <?php $this->inlineScript()->captureEnd();?>
 </script>
-
-
-

@@ -107,5 +107,27 @@ class Application_Model_DbTable_CmsClients extends Zend_Db_Table_Abstract {
         ),'id = ' . $id);
         }
     }
-   
+    public function enabledClients($clients) {
+       
+        $enabledClients = 0; 
+        foreach ($clients as $client) {
+            
+            
+            if ($client['status'] == self::STATUS_ENABLED) {
+                $enabledClients += 1;
+            }
+        
+        }return $enabledClients;
+    }
+
+    public function allClients($clients) {
+        $allClients =0;
+        
+        foreach ($clients as $client){
+            $allClients += 1;
+        }
+        
+        return $allClients ;
+    }
+        
 }

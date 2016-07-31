@@ -1,26 +1,25 @@
-
 <?php
 Zend_Layout::getMvcInstance()->disableLayout();
-$enabled= $this->enabledMembers;
-$allMembers = $this->allMembers;
+$enabled= $this->enabledUsers;
+$allUsers = $this->allUsers;
 ?>
 
 
-        <div class="panel panel-primary">
+        <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-table fa-5x"></i>
+                                    <i class="fa fa-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><?php echo $this->escape($enabled . ' / ' .$allMembers );?></div>
+                                    <div class="huge"><?php echo $this->escape($enabled . ' / ' .$allUsers );?></div>
                                     <div>Enabled/All</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="<?php echo $this->url(array('controller'=>'admin_members'), "default", true); ?>">
+                        <a href="<?php echo $this->url(array('controller'=>'admin_users'), "default", true); ?>">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details about members</span>
+                                <span class="pull-left">View Details about Users</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>

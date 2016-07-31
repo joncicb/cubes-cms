@@ -81,7 +81,7 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
     public function deleteMember($id){
         
         $memberPhotoFilePath = PUBLIC_PATH . '/uploads/members/' . $id . '.jpg';
-        //preneti u clients!!!!
+        //preneti u members!!!!
         if(is_file($memberPhotoFilePath)){
             //delete member photo file
             unlink($memberPhotoFilePath);
@@ -122,5 +122,26 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
         ),'id = ' . $id);
         }
     }
-   
+    public function enabledMembers($members) {
+       
+        $enabledMembers = 0; 
+        foreach ($members as $member) {
+            
+            
+            if ($member['status'] == self::STATUS_ENABLED) {
+                $enabledMembers += 1;
+            }
+        
+        }return $enabledMembers;
+    }
+
+    public function allMembers($members) {
+        $allMembers =0;
+        
+        foreach ($members as $member){
+            $allMembers += 1;
+        }
+        
+        return $allMembers ;
+    }
 }
