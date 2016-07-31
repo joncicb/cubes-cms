@@ -203,7 +203,6 @@ $this->headTitle('Users');
 <script>
 <?php $this->inlineScript()->captureStart(); ?>
 
-
  $('#rows-table').on('click', '[data-action="delete"]', function(e) {
     
     e.preventDefault();
@@ -219,7 +218,7 @@ $this->headTitle('Users');
     $('#delete-user').text(userName);
     $('#delete-warning-dialog').modal('show');
  });   
-$('#rows-table').on('click', '[data-action="disable"]', function(e) {
+ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
     
     e.preventDefault();
     e.stopPropagation();
@@ -264,7 +263,7 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
         
     });
    
-    $('#rows-table').DataTable({
+  $('#rows-table').DataTable({
         columnDefs:[
             {targets: [5], orderable: false, searchable: false},// iskljucivanje pretrazivanja sadrzaja 5 kolone
             {targets: [0,5], className:'text-center'}//centriranje sadrzaja u kolonama 0 i 5
@@ -275,10 +274,10 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
         lengthMenu: [3, 10, 20, 50, 100 ],
         serverSide: true,//na svaki klik vrati informaciju
         processing:true,
-        ajax: "<?php echo $this->url(array('controller' =>'admin_users', 'action'=>'datatable'),'default', true); ?>"//gde pitamo server
+        ajax: "<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'datatable'), 'default', true); ?>"//gde pitamo server
     });
     
-    $('#disable-warning-dialog').on('submit', function(e) {
+  $('#disable-warning-dialog').on('submit', function(e) {
         
         e.preventDefault();//stop manual form submit
         
@@ -286,7 +285,7 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
         
         $.ajax({
           
-          url: '<?php echo $this->url(array('controller'=>'admin_users', 'action'=>'disable'), 'default', true) ?>',
+          url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'disable'), 'default', true) ?>',
           method: 'post',
           data: {
              
@@ -327,7 +326,150 @@ $('#rows-table').on('click', '[data-action="disable"]', function(e) {
             $('#rows-table').DataTable().draw(false);//draw iscrtava tabelu nad kojim su prosledjeni parametri false vraca na stranu na kojoj smo trenutno
             });
     });
+   
+     $('#enable-warning-dialog').on('submit', function(e) {
+        
+        e.preventDefault();//stop manual form submit
+        //ternarni za pozicioniranje na id 
+        var target = $(this).is('#enable-warning-dialog') ? $(this) : $(this).closest('#enable-warning-dialog');
+        //pocetak ajaxa
+        $.ajax({
+          //gde saljemo zahtev (na koju akciju) i kog je tipa zahtev
+          url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'enable'), 'default', true) ?>',
+          method: 'post',
+          data: {
+             //saljemo task iz hidden forme
+             task: 'enable',
+             id: target.find('[name="id"]').val()//selektovanje preko atributa ide sa ovim []
+             
+            }
+          
+          
+        }).done(function(data){
+            //proveravamo sadrzaj ukolioko jeste baci poruku success ukoliko nije baci error
+            if(data['status'] === 'ok'){
+                
+                var messageBox = $('[data-container="message-box-success"]').last().clone(true);//kloniraj i handler u message boxu
+                
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                $('#system-messages-container').append(messageBox);
+                  
+                }else{
+                    var messageBox = $('[data-container="message-box-error"]').last().clone(true);
+                    
+                    messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                    $('#system-messages-container').append(messageBox);
+                    
+                }
+        
+        
+        }).fail(function(){
+            //error in communication with server
+            alert('Error:Server returned error')
+        
+        
+        }).always(function(){
+            target.modal('hide');
+            //draw iscrtava tabelu nad kojim su prosledjeni parametri false vraca na stranu na kojoj smo trenutno
+            $('#rows-table').DataTable().draw(false);
+            });
+    });
     
+ $('#reset-password-warning-dialog').on('submit', function(e) {
+        
+        e.preventDefault();
+        
+        var target = $(this).is('#reset-password-warning-dialog') ? $(this) : $(this).closest('#reset-password-warning-dialog');
+        
+        $.ajax({
+          
+          url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'resetpassword'), 'default', true) ?>',
+          method: 'post',
+          data: {
+             
+             task: 'reset',
+             id: target.find('[name="id"]').val()
+             
+            }
+          
+        }).done(function(data){
+            
+            if(data['status'] === 'ok'){
+                
+                var messageBox = $('[data-container="message-box-success"]').last().clone(true);
+                
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                $('#system-messages-container').append(messageBox);
+                
+                }else{
+                    var messageBox = $('[data-container="message-box-error"]').last().clone(true);
+                    
+                    messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                    $('#system-messages-container').append(messageBox);
+                    
+                }
+
+        }).fail(function(){
+            
+            alert('Error:Server returned error')
+        
+        }).always(function(){
+            target.modal('hide');
+            
+            $('#rows-table').DataTable().draw(false);
+            });
+    });
+
+ $('#delete-warning-dialog').on('submit', function(e) {
+        
+        e.preventDefault();
+        
+        var target = $(this).is('#delete-warning-dialog') ? $(this) : $(this).closest('#delete-warning-dialog');
+        
+        $.ajax({
+          
+          url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'delete'), 'default', true) ?>',
+          method: 'post',
+          data: {
+             
+             task: 'delete',
+             id: target.find('[name="id"]').val()
+             
+            }
+          
+        }).done(function(data){
+            
+            if(data['status'] === 'ok'){
+                
+                var messageBox = $('[data-container="message-box-success"]').last().clone(true);
+                
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                $('#system-messages-container').append(messageBox);
+                  
+                }else{
+                    var messageBox = $('[data-container="message-box-error"]').last().clone(true);
+                    
+                    messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                
+                    $('#system-messages-container').append(messageBox);
+                    
+                }
+
+        }).fail(function(){
+            
+            alert('Error:Server returned error')
+        
+        }).always(function(){
+            target.modal('hide');
+            
+            $('#rows-table').DataTable().draw(false);
+            });
+    });
     
- <?php $this->inlineScript()->captureEnd(); ?> 
+<?php $this->inlineScript()->captureEnd(); ?> 
 </script>

@@ -184,16 +184,53 @@ class Admin_UsersController extends Zend_Controller_Action {
             }
 
             $cmsUsersTable->deleteUser($id);
+            
+            $request instanceof Zend_Controller_Request_Http;
+            
+            //ispitivanje da li je request Ajax
+            if($request->isXmlHttpRequest()){
+                //request je Ajax
+                //send response as json
+                
+                $responseJson=array(
+                    'status'=>'ok',
+                    'statusMessage'=>'User ' . $user["first_name"] . ' ' . $user["last_name"] . ' has been deleted.'
+                );
+                
+                //send json as response
+                $this->getHelper('Json')->sendJson($responseJson);
+                
+            }else{
+                //request nije Ajax
+                //send message over session
+                //and do not redirect
+                
+            $flashMessenger->addMessage("User " . $user["first_name"] . " " . $user["last_name"] . " has been deleted.", "success");
 
-            $flashMessenger->addMessage('User : ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been deleted', 'success');
             $redirector = $this->getHelper('Redirector');
             $redirector->setExit(true)
                     ->gotoRoute(array(
                         'controller' => 'admin_users',
                         'action' => 'index'
                             ), 'default', true);
+            }
+            
+            
         } catch (Application_Model_Exception_InvalidInput $ex) {
-            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+            if($request->isXmlHttpRequest()){
+                //request is ajax
+                
+                $responseJson = array(
+                    'status'=>'error',
+                    'statusMessage'=>$ex->getMessage()
+                    
+                );
+                //send json as response
+                $this->getHelper('Json')->sendJson($responseJson);
+                
+            }else{
+                //request is not ajax
+            $flashMessenger->addMessage($ex->getMessage());
 
             $redirector = $this->getHelper('Redirector');
             $redirector->setExit(true)
@@ -201,6 +238,8 @@ class Admin_UsersController extends Zend_Controller_Action {
                         'controller' => 'admin_users',
                         'action' => 'index'
                             ), 'default', true);
+            }
+            
         }
     }
 
@@ -333,6 +372,27 @@ class Admin_UsersController extends Zend_Controller_Action {
             }
 
             $cmsUsersTable->enableUser($id);
+            
+            $request instanceof Zend_Controller_Request_Http;
+            
+            //ispitivanje da li je request Ajax
+            if($request->isXmlHttpRequest()){
+                //request je Ajax
+                //send response as json
+                
+                $responseJson=array(
+                    'status'=>'ok',
+                    'statusMessage'=>'User ' . $user["first_name"] . ' ' . $user["last_name"] . ' has been enabled.'
+                );
+                
+                //send json as response
+                $this->getHelper('Json')->sendJson($responseJson);
+                
+            }else{
+                //request nije Ajax
+                //send message over session
+                //and do not redirect
+                
             $flashMessenger->addMessage("User " . $user["first_name"] . " " . $user["last_name"] . " has been enabled.", "success");
 
             $redirector = $this->getHelper('Redirector');
@@ -341,8 +401,23 @@ class Admin_UsersController extends Zend_Controller_Action {
                         'controller' => 'admin_users',
                         'action' => 'index'
                             ), 'default', true);
+            }
+            
+            
         } catch (Application_Model_Exception_InvalidInput $ex) {
-
+            if($request->isXmlHttpRequest()){
+                //request is ajax
+                
+                $responseJson = array(
+                    'status'=>'error',
+                    'statusMessage'=>$ex->getMessage()
+                    
+                );
+                //send json as response
+                $this->getHelper('Json')->sendJson($responseJson);
+                
+            }else{
+                //request is not ajax
             $flashMessenger->addMessage($ex->getMessage());
 
             $redirector = $this->getHelper('Redirector');
@@ -351,6 +426,8 @@ class Admin_UsersController extends Zend_Controller_Action {
                         'controller' => 'admin_users',
                         'action' => 'index'
                             ), 'default', true);
+            }
+            
         }
     }
 
@@ -395,8 +472,28 @@ class Admin_UsersController extends Zend_Controller_Action {
                                 ), 'default', true);
             }
             $cmsUsersTable->resetPassword($id);
-
-            $flashMessenger->addMessage('Password is successfully reseted to default value for user: ' . $user['username'], 'success');
+            
+            $request instanceof Zend_Controller_Request_Http;
+            
+            //ispitivanje da li je request Ajax
+            if($request->isXmlHttpRequest()){
+                //request je Ajax
+                //send response as json
+                
+                $responseJson=array(
+                    'status'=>'ok',
+                    'statusMessage'=>'Password is successfully reseted to default value for username: ' . $user['username']
+                );
+                
+                //send json as response
+                $this->getHelper('Json')->sendJson($responseJson);
+                
+            }else{
+                //request nije Ajax
+                //send message over session
+                //and do not redirect
+                
+            $flashMessenger->addMessage('Password is successfully reseted to default value for username: ' . $user['username'], 'success');
 
             $redirector = $this->getHelper('Redirector');
             $redirector->setExit(true)
@@ -404,18 +501,35 @@ class Admin_UsersController extends Zend_Controller_Action {
                         'controller' => 'admin_users',
                         'action' => 'index'
                             ), 'default', true);
+            }
+            
+            
         } catch (Application_Model_Exception_InvalidInput $ex) {
-
-            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+            if($request->isXmlHttpRequest()){
+                //request is ajax
+                
+                $responseJson = array(
+                    'status'=>'error',
+                    'statusMessage'=>$ex->getMessage()
+                    
+                );
+                //send json as response
+                $this->getHelper('Json')->sendJson($responseJson);
+                
+            }else{
+                //request is not ajax
+            $flashMessenger->addMessage($ex->getMessage());
 
             $redirector = $this->getHelper('Redirector');
-
             $redirector->setExit(true)
                     ->gotoRoute(array(
                         'controller' => 'admin_users',
                         'action' => 'index'
                             ), 'default', true);
+            }
+            
         }
+
     }
 
     public function datatableAction() {
