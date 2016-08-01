@@ -1,11 +1,11 @@
+<?php
+$member = $this->member;
+
+echo $this->headTitle('Member - ' . $member['first_name'] . ' ' . $member['last_name']);
+ ?>
 <div id="highlighted">
     <div class="container">
         <div class="header">
-            <?php
-            $member = $this->member;
-
-            echo $this->headTitle('Member - ' . $member['first_name'] . ' ' . $member['last_name']);
-            ?>
             <h2 class="page-title">
                 <span>About Us</span> 
                 <small><?php echo $this->escape('Member - ' . $member['first_name'] . ' ' . $member['last_name']); ?></small>
@@ -21,7 +21,7 @@
                 <!-- About company -->
                 <div class="row team-member">
                     <div class="col-sm-3">
-                        <img alt="Member's Photo" class="img-polaroid" src="<?php echo $this->memberImgUrl($member); ?>">
+                        <img alt="<?php echo $this->escape($member['first_name']);?>" class="img-polaroid" src="<?php echo $this->memberImgUrl($member);?>">
                     </div>
                     <div class="col-sm-9">
                         <h3>
@@ -61,11 +61,11 @@
                                 }
                                 $i++;
 
-                                $memberUrl = $this->baseUrl('/aboutus/member/id/' . $member['id']);
+                                //$memberUrl = $this->baseUrl('/aboutus/member/id/' . $member['id']);
                                 ?>
                                 <li class="col-sm-6 col-md-3">
                                     <a
-                                        href="<?php echo $memberUrl ?>">
+                                        href="<?php echo $this->memberUrl($member);?>">
                                         <img alt="<?php echo $this->escape($member['first_name']); ?>" class="img-polaroid" src="<?php echo $this->memberImgUrl($member); ?>">
                                     </a>
                                     <h4>

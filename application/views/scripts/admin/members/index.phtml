@@ -52,12 +52,12 @@ $this->headTitle('Members');
                                                     <td class="text-center">
                                                             <div class="btn-group btn-group-sm" role="group" aria-label="...">
                                                                 <a  
-                                                                        href="<?php echo $this->url(array ('controller' => 'aboutus', 'action' => 'member', 'id' => $member['id']), 'default', true); ?>"
+                                                                        href="<?php echo $this->memberUrl($member);?>"
                                                                         target="_blank"
                                                                         type="button" class="btn btn-default" title="preview"><i class="glyphicon glyphicon-eye-open"></i></a>
                                                                         
                                                                 <a  
-                                                                        href="<?php echo $this->url(array ('controller' => 'admin_members', 'action' => 'edit', 'id' => $member['id']), 'default', true); ?>"
+                                                                        href="<?php echo $this->memberUrl($member);?>"
                                                                         type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
                                                                 <button data-member-id="<?php echo $this->escape($member['id']);?>" data-action="enable" type="button" class="btn btn-default" title="enable"><i class="glyphicon glyphicon-ok"></i></button>
                                                                 <button data-member-id="<?php echo $this->escape($member['id']);?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>
