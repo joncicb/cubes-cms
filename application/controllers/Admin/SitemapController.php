@@ -47,5 +47,21 @@ class Admin_SitemapController extends Zend_Controller_Action
         $this->view->systemMessages = $systemMessages;
         $this->view->sitemapPageBreadcrumbs = $sitemapPageBredcrumbs;
     }
+        public function dashboardAction() {
+        
+        $cmsSitemapPagesDbTable = new Application_Model_DbTable_CmsSitemapPages();
+
+        $enabled = $cmsSitemapPagesDbTable->count(array(
+        'status'=>Application_Model_DbTable_CmsSitemapPages::STATUS_ENABLED
+        ));
+        
+        $allPages =$cmsSitemapPagesDbTable->count();
+        
+         
+   
+        $this->view->enabledSitemapPages = $enabled;
+        $this->view->allSitemapPages = $allPages;
+    }
+    
 }
 

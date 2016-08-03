@@ -346,11 +346,13 @@ class Admin_ServicesController extends Zend_Controller_Action
     public function dashboardAction() {
         
         $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
-        $select = $cmsServicesDbTable->select();
-        $services = $cmsServicesDbTable->fetchAll($select);
+
+        $enabled = $cmsServicesDbTable->count(array(
+        'status'=>Application_Model_DbTable_CmsServices::STATUS_ENABLED,
+        //'title_search'=>'seo'//se koristi kao keyword        
+                ));
         
-        $enabled = $cmsServicesDbTable->enabledServices($services);
-        $allServices =$cmsServicesDbTable->allServices($services);
+        $allServices =$cmsServicesDbTable->count();
        
        
                 

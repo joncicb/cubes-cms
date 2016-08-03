@@ -441,14 +441,16 @@ class Admin_MembersController extends Zend_Controller_Action {
     public function dashboardAction() {
         
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
-        $select = $cmsMembersDbTable->select();
-        $members = $cmsMembersDbTable->fetchAll($select);
+        //$select = $cmsMembersDbTable->select();
+        //$members = $cmsMembersDbTable->fetchAll($select);
         
-        $enabled = $cmsMembersDbTable->enabledMembers($members);
-        //$enabled = $cmsMembersDbTable->count(array(
-        //'status'=>Application_Model_DbTable_CmsMembers::STATUS_ENABLED));
-        $allMembers =$cmsMembersDbTable->allMembers($members);
-        //$allMembers =$cmsMembersDbTable->count();
+        //$enabled = $cmsMembersDbTable->enabledMembers($members);
+        $enabled = $cmsMembersDbTable->count(array(
+        'status'=>Application_Model_DbTable_CmsMembers::STATUS_ENABLED));
+        //$allMembers =$cmsMembersDbTable->allMembers($members);
+        $allMembers =$cmsMembersDbTable->count();
+        
+        
         $this->view->enabledMembers = $enabled;
         $this->view->allMembers = $allMembers;
     }

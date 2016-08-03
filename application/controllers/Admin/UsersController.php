@@ -637,11 +637,15 @@ class Admin_UsersController extends Zend_Controller_Action {
     public function dashboardAction() {
         
         $cmsUsersDbTable = new Application_Model_DbTable_CmsUsers();
-        $select = $cmsUsersDbTable->select();
-        $users = $cmsUsersDbTable->fetchAll($select);
+
+        $enabled = $cmsUsersDbTable->count(array(
+        'status'=>Application_Model_DbTable_CmsUsers::STATUS_ENABLED,
+        //'last_name_search' => 'kiu'
+        ));
         
-        $enabled = $cmsUsersDbTable->enabledUsers($users);
-        $allUsers =$cmsUsersDbTable->allUsers($users);
+        $allUsers =$cmsUsersDbTable->count();
+        
+         
    
         $this->view->enabledUsers = $enabled;
         $this->view->allUsers = $allUsers;

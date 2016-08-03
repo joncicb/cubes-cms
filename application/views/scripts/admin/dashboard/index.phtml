@@ -23,6 +23,10 @@
                 <div class="col-lg-3 col-md-6" id="clients">
                     
                 </div>
+                
+                <div class="col-lg-3 col-md-6" id="sitemap">
+                    
+                </div>
             </div>
 
 <script>
@@ -39,6 +43,21 @@
                   
                 }).fail (function () {
                     alert('Unable to load members');
+                }).always(function () {
+                    
+                });
+                
+                $.ajax({
+                    
+                    url: '<?php echo $this->url(array('controller' => 'admin_sitemap', 'action' => 'dashboard'), 'default', true);?>',
+                    cache: false
+                    
+                }).done (function (data) {
+                        
+                  $('#sitemap').append(data);
+                  
+                }).fail (function () {
+                    alert('Unable to load data about sitemap');
                 }).always(function () {
                     
                 });

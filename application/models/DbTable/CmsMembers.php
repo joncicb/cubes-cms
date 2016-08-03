@@ -122,28 +122,28 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
         ),'id = ' . $id);
         }
     }
-    public function enabledMembers($members) {
-       
-        $enabledMembers = 0; 
-        foreach ($members as $member) {
-            
-            
-            if ($member['status'] == self::STATUS_ENABLED) {
-                $enabledMembers += 1;
-            }
-        
-        }return $enabledMembers;
-    }
+//    public function enabledMembers($members) {
+//       
+//        $enabledMembers = 0; 
+//        foreach ($members as $member) {
+//            
+//            
+//            if ($member['status'] == self::STATUS_ENABLED) {
+//                $enabledMembers += 1;
+//            }
+//        
+//        }return $enabledMembers;
+//    }
 
-    public function allMembers($members) {
-        $allMembers =0;
-        
-        foreach ($members as $member){
-            $allMembers += 1;
-        }
-        
-        return $allMembers ;
-    }
+//    public function allMembers($members) {
+//        $allMembers =0;
+//        
+//        foreach ($members as $member){
+//            $allMembers += 1;
+//        }
+//        
+//        return $allMembers ;
+//    }
     
             /**
          * Array $parameters is keeping search parameters.
@@ -192,15 +192,15 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
                     }
                 }
             }
-            if(isset($parameters['limit'])){
-                if(isset($parameters['page'])){
-                    //page is set do limit by page
-                    $select->limitPage($parameters['page'], $parameters['limit']);
-                }else{
-                    //page is not set, just do regular limit
-                   $select->limit($parameters['limit']); 
-                }
-            }
+//            if(isset($parameters['limit'])){
+//                if(isset($parameters['page'])){
+//                    //page is set do limit by page
+//                    $select->limitPage($parameters['page'], $parameters['limit']);
+//                }else{
+//                    //page is not set, just do regular limit
+//                   $select->limit($parameters['limit']); 
+//                }
+//            }
             //debug da vidimo koji se querie izvrsava
             //die($select->assemble());
             

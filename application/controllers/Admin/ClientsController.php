@@ -411,22 +411,20 @@ class Admin_ClientsController extends Zend_Controller_Action {
                             ), 'default', true);
         }
     }
-    public function dashboardAction() {
 
+    public function dashboardAction() {
         
-        $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();//novi objekat
-        $select = $cmsClientsDbTable->select();//select tabele iz baze
-        $clients = $cmsClientsDbTable->fetchAll($select);//fetch podataka iz selectovane tabele
+        $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
+
+        $enabled = $cmsClientsDbTable->count(array(
+        'status'=>Application_Model_DbTable_CmsClients::STATUS_ENABLED,
+        //'name'=>'dosen'        
+                ));
         
-        $enabled = $cmsClientsDbTable->enabledClients($clients); //pozivanje fj-a iz modela
-        $allClients =$cmsClientsDbTable->allClients($clients);
-       
-       
-        //slanje u prezentacioni deo        
+        $allClients =$cmsClientsDbTable->count();
+        
         $this->view->enabledClients = $enabled;
         $this->view->allClients = $allClients;
-        
-      
     }
     
 }
