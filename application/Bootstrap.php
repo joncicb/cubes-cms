@@ -7,10 +7,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $router = Zend_Controller_Front::getInstance()->getRouter();
         
-        $router instanceof Zend_Controller_Router_Rewrite;
+        $router instanceof Zend_Controller_Router_Rewrite;//kod za dobijanje rutera
         
         // 1. static route
-        $router->addRoute('about-us-route', new Zend_Controller_Router_Route_Static(
+        $router->addRoute('about-us-route', new Zend_Controller_Router_Route_Static(//za rute koje nemaju parametre, moze i da se koristi za maskiranje putanje
             'about-us',
             array(
                 'controller' => 'aboutus',
