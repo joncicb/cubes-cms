@@ -9,8 +9,20 @@ class Admin_UsersController extends Zend_Controller_Action {
             'success' => $flashMessenger->getMessages('success'),
             'errors' => $flashMessenger->getMessages('errors')
         );
-        
-        $this->view->users = array(); //prosledjujemo prezentacionoj logici
+        $cmsUsersDbTable = new Application_Model_DbTable_CmsUsers();
+
+        $users = $cmsUsersDbTable->search(array(
+            'filters' => array(//filtriram tabelu po
+            'status'=>Application_Model_DbTable_CmsUsers::STATUS_DISABLED,
+
+            ),
+            'orders' => array(//sortiram tabelu po
+                'username'=>'DESC'
+            ),
+            //'limit' => 4,
+            //'page' => 2
+        ));
+        $this->view->users = $users; //prosledjujemo prezentacionoj logici
 
         $this->view->systemMessages = $systemMessages;
     }
@@ -532,108 +544,110 @@ class Admin_UsersController extends Zend_Controller_Action {
 
     }
 
-    public function datatableAction() {
-
-        $request = $this->getRequest();
-
-        $datatableParameters = $request->getParams();
-
-        //print_r($datatableParameters);
-        //die();
-        /*
-          Array
-          (
-          [controller] => admin_users
-          [action] => datatable
-          [module] => default
-          [draw] => 1
-
-
-          [order] => Array
-          (
-          [0] => Array
-          (
-          [column] => 2
-          [dir] => asc
-          )
-
-          )
-
-          [start] => 0//page tj pocetak strane da je druga strana bila bi vrednost 5 da je str 3 vrednost bi bila 10
-          [length] => 3//je limit
-          [search] => Array
-          (
-          [value] =>
-          [regex] => false
-          )
-          )
-         */
-        $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
-
-        $loggedInUser = Zend_Auth::getInstance()->getIdentity();
-        $filters = array(
-            'id_exclude' => $loggedInUser
-        );
-        $orders = array();
-        $limit = 5;
-        $page = 1;
-        $draw = 1; //obavezan prilikom slanja
-
-        $columns = array('status', 'username', 'first_name', 'last_name', 'email', 'actions'); //ovaj raspored mora da bude isti kao u tabeli u prezentacionoj logici
-        //Process datatable parameters
-        if (isset($datatableParameters['draw'])) {
-
-            $draw = $datatableParameters['draw'];
-
-            if (isset($datatableParameters['length'])) {
-
-                $limit = $datatableParameters['length'];
-
-                if ($datatableParameters['start']) {
-
-                    $page = floor($datatableParameters['start'] / $datatableParameters['length']) + 1;
-                }
-            }
-            
-            if (
-                    isset($datatableParameters['order']) && is_array($datatableParameters['order'])
-            ) {
-                foreach ($datatableParameters['order'] as $datatableOrder) {
-                    $columnIndex = $datatableOrder['column']; //daje index iz $column niza
-                    $columnDirection = strtoupper($datatableOrder['dir']);
-
-                    if (isset($columns[$columnIndex])) {
-                        $orders[$columns[$columnIndex]] = $columnDirection;
-                    }
-                }
-            }
-            if (
-                    isset($datatableParameters['search']) && is_array($datatableParameters['search']) && isset($datatableParameters['search']['value'])
-            ) {
-
-                $filters['username_search'] = $datatableParameters['search']['value'];
-            }
-        }
-
-
-
-        $users = $cmsUsersTable->search(array(
-            'filters' => $filters,
-            'orders' => $orders,
-            'limit' => $limit,
-            'page' => $page
-        ));
-
-        $usersFilteredCount = $cmsUsersTable->count($filters);
-        $usersTotal = $cmsUsersTable->count();
-
-
-        $this->view->users = $users; //prosledjivanje prezentacionoj logici
-        $this->view->usersFilteredCount = $usersFilteredCount; //prosledjivanje prezentacionoj logici
-        $this->view->usersTotal = $usersTotal; //prosledjivanje prezentacionoj logici
-        $this->view->draw = $draw; //prosledjivanje prezentacionoj logici
-        $this->view->columns = $columns;
-    }
+//    public function datatableAction() {
+//
+//        $request = $this->getRequest();
+//
+//        $datatableParameters = $request->getParams();
+//
+//        //print_r($datatableParameters);
+//        //die();
+//        /*
+//          Array
+//          (
+//          [controller] => admin_users
+//          [action] => datatable
+//          [module] => default
+//          [draw] => 1
+//
+//
+//          [order] => Array
+//          (
+//          [0] => Array
+//          (
+//          [column] => 2
+//          [dir] => asc
+//          )
+//
+//          )
+//
+//          [start] => 0//page tj pocetak strane da je druga strana bila bi vrednost 5 da je str 3 vrednost bi bila 10
+//          [length] => 3//je limit
+//          [search] => Array
+//          (
+//          [value] =>
+//          [regex] => false
+//          )
+//          )
+//         */
+//        $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
+//
+//        $loggedInUser = Zend_Auth::getInstance()->getIdentity();
+//        $filters = array(
+//            'id_exclude' => $loggedInUser,
+//            //'status'=>Application_Model_DbTable_CmsUsers::STATUS_DISABLED
+//            
+//        );
+//        $orders = array();
+//        $limit = 5;
+//        $page = 1;
+//        $draw = 1; //obavezan prilikom slanja
+//
+//        $columns = array('status', 'username', 'first_name', 'last_name', 'email', 'actions'); //ovaj raspored mora da bude isti kao u tabeli u prezentacionoj logici
+//        //Process datatable parameters
+//        if (isset($datatableParameters['draw'])) {
+//
+//            $draw = $datatableParameters['draw'];
+//
+//            if (isset($datatableParameters['length'])) {
+//
+//                $limit = $datatableParameters['length'];
+//
+//                if ($datatableParameters['start']) {
+//
+//                    $page = floor($datatableParameters['start'] / $datatableParameters['length']) + 1;
+//                }
+//            }
+//            
+//            if (
+//                    isset($datatableParameters['order']) && is_array($datatableParameters['order'])
+//            ) {
+//                foreach ($datatableParameters['order'] as $datatableOrder) {
+//                    $columnIndex = $datatableOrder['column']; //daje index iz $column niza
+//                    $columnDirection = strtoupper($datatableOrder['dir']);
+//
+//                    if (isset($columns[$columnIndex])) {
+//                        $orders[$columns[$columnIndex]] = $columnDirection;
+//                    }
+//                }
+//            }
+//            if (
+//                    isset($datatableParameters['search']) && is_array($datatableParameters['search']) && isset($datatableParameters['search']['value'])
+//            ) {
+//
+//                $filters['username_search'] = $datatableParameters['search']['value'];
+//            }
+//        }
+//
+//
+//
+//        $users = $cmsUsersTable->search(array(
+//            'filters' => $filters,
+//            'orders' => $orders,
+//            'limit' => $limit,
+//            'page' => $page
+//        ));
+//
+//        $usersFilteredCount = $cmsUsersTable->count($filters);
+//        $usersTotal = $cmsUsersTable->count();
+//
+//
+//        $this->view->users = $users; //prosledjivanje prezentacionoj logici
+//        $this->view->usersFilteredCount = $usersFilteredCount; //prosledjivanje prezentacionoj logici
+//        $this->view->usersTotal = $usersTotal; //prosledjivanje prezentacionoj logici
+//        $this->view->draw = $draw; //prosledjivanje prezentacionoj logici
+//        $this->view->columns = $columns;
+//    }
     public function dashboardAction() {
         
         $cmsUsersDbTable = new Application_Model_DbTable_CmsUsers();

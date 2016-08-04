@@ -12,12 +12,22 @@ class Admin_ServicesController extends Zend_Controller_Action
         );
 
        $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
+       $services = $cmsServicesDbTable->search(array(
+            'filters' => array(
+            'description_search'=> 'ideja'
+            
+            ),
+            'orders' => array(//sortiram tabelu po
+                'order_number'=>'DESC'
+            ),
+            //'limit' => 4,
+            //'page' => 2
+        ));
+        //$select = $cmsServicesDbTable->select();
 
-        $select = $cmsServicesDbTable->select();
+        //$select->order('order_number');
 
-        $select->order('order_number');
-
-        $services = $cmsServicesDbTable->fetchAll($select);
+        //$services = $cmsServicesDbTable->fetchAll($select);
 
         $this->view->services = $services;
         $this->view->systemMessages = $systemMessages;  

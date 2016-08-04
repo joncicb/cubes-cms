@@ -11,14 +11,26 @@ class Admin_ClientsController extends Zend_Controller_Action {
         );
         
         $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
-        
-        $select = $cmsClientsDbTable->select();
 
-        $select->order('order_number');
+        $clients = $cmsClientsDbTable->search(array(
+            'filters' => array(//filtriram tabelu po
+            'status'=>Application_Model_DbTable_CmsClients::STATUS_ENABLED,
+            'description_search' => 'farm'
+            
+            ),
+            'orders' => array(//sortiram tabelu po
+                'order_number'=>'ASC'
+            ),
+            //'limit' => 4,
+            //'page' => 2
+        ));
+        //$select = $cmsClientsDbTable->select();
+
+        //$select->order('order_number');
         //debug za db select - vraca se sql upit
         //die($select->assemble());
 
-        $clients = $cmsClientsDbTable->fetchAll($select);
+        //$clients = $cmsClientsDbTable->fetchAll($select);
 
         $this->view->clients = $clients; //prosledjivanje rezultata
         $this->view->systemMessages = $systemMessages;

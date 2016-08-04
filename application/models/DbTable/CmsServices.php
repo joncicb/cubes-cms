@@ -130,9 +130,17 @@ class Application_Model_DbTable_CmsServices extends Zend_Db_Table_Abstract {
                         }
                         break;
                     }
+                } 
+            }
+            if(isset($parameters['limit'])){
+                if(isset($parameters['page'])){
+                    //page is set do limit by page
+                    $select->limitPage($parameters['page'], $parameters['limit']);
+                }else{
+                    //page is not set, just do regular limit
+                    $select->limit($parameters['limit']); 
                 }
             }
-            
             return $this->fetchAll($select)->toArray();
         }
         /**

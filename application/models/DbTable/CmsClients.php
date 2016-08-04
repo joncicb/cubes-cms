@@ -109,22 +109,22 @@ class Application_Model_DbTable_CmsClients extends Zend_Db_Table_Abstract {
     }
     
     /**
-         * Array $parameters is keeping search parameters.
-         * Array $parameters must be in following format:
-         *      array(
-         *       'filters'=>array1(
-         *          'status'=>1,
-         *          'id' =>array(3,8,11)
-         *              ) 
-         *       'orders'=>array(
-         *          'username'=>ASC,//key is column, if value is ASC then order by asc
-         *          'first_name' =>DESC,//key is column, if value is DESC then order by desc 
-         *          ),
-         *        'limit'=>50, //limit result set to 50 rows
-         *        'page' =>3 //start from page 3. If no limit is set, page is ignored            
-         *      )
-         * @param array $parameters Asociative array with keys filters, orders, limit and page
-         */     
+    * Array $parameters is keeping search parameters.
+    * Array $parameters must be in following format:
+    *      array(
+    *       'filters'=>array1(
+    *          'status'=>1,
+    *          'id' =>array(3,8,11)
+    *              ) 
+    *       'orders'=>array(
+    *          'username'=>ASC,//key is column, if value is ASC then order by asc
+    *          'first_name' =>DESC,//key is column, if value is DESC then order by desc 
+    *          ),
+    *        'limit'=>50, //limit result set to 50 rows
+    *        'page' =>3 //start from page 3. If no limit is set, page is ignored            
+    *      )
+    * @param array $parameters Asociative array with keys filters, orders, limit and page
+    */          
     public function search(array $parameters=array()){
             $select = $this->select();
             
@@ -153,14 +153,22 @@ class Application_Model_DbTable_CmsClients extends Zend_Db_Table_Abstract {
                     }
                 }
             }
-            
+                if(isset($parameters['limit'])){
+                if(isset($parameters['page'])){
+                    //page is set do limit by page
+                    $select->limitPage($parameters['page'], $parameters['limit']);
+                }else{
+                    //page is not set, just do regular limit
+                    $select->limit($parameters['limit']); 
+                }
+            }
             return $this->fetchAll($select)->toArray();
         }
-        /**
-         * 
-         * @param array $filters See function search $parameters['filters']
-         * return int Count of rows that match $filters
-         */
+    /**
+    * 
+    * @param array $filters See function search $parameters['filters']
+    * return int Count of rows that match $filters
+    */
     public function count (array $filters = array()) {
         $select = $this->select();
         

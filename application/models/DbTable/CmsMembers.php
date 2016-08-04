@@ -192,15 +192,15 @@ class Application_Model_DbTable_CmsMembers extends Zend_Db_Table_Abstract {
                     }
                 }
             }
-//            if(isset($parameters['limit'])){
-//                if(isset($parameters['page'])){
-//                    //page is set do limit by page
-//                    $select->limitPage($parameters['page'], $parameters['limit']);
-//                }else{
-//                    //page is not set, just do regular limit
-//                   $select->limit($parameters['limit']); 
-//                }
-//            }
+            if(isset($parameters['limit'])){
+                if(isset($parameters['page'])){
+                    //page is set do limit by page
+                    $select->limitPage($parameters['page'], $parameters['limit']);
+                }else{
+                    //page is not set, just do regular limit
+                    $select->limit($parameters['limit']); 
+                }
+            }
             //debug da vidimo koji se querie izvrsava
             //die($select->assemble());
             

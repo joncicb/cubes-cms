@@ -36,7 +36,7 @@ $this->headTitle('Users');
 						</tr>
 					</thead>
 					<tbody>
-						<?php /*
+						<?php 
 						foreach ($this->users as $user) {
 							if ($user['status'] == Application_Model_DbTable_CmsUsers::STATUS_DISABLED) {
 							?>
@@ -85,7 +85,7 @@ $this->headTitle('Users');
 						
 							<?php
 						}
-						*/?>
+						?>
 						
 					</tbody>
 				</table>
@@ -263,19 +263,19 @@ $this->headTitle('Users');
         
     });
    
-  $('#rows-table').DataTable({
-        columnDefs:[
-            {targets: [5], orderable: false, searchable: false},// iskljucivanje pretrazivanja sadrzaja 5 kolone
-            {targets: [0,5], className:'text-center'}//centriranje sadrzaja u kolonama 0 i 5
-        ],
-        order:[
-            [2, 'asc']
-        ],
-        lengthMenu: [3, 10, 20, 50, 100 ],
-        serverSide: true,//na svaki klik vrati informaciju
-        processing:true,
-        ajax: "<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'datatable'), 'default', true); ?>"//gde pitamo server
-    });
+//  $('#rows-table').DataTable({
+//        columnDefs:[
+//            {targets: [5], orderable: false, searchable: false},// iskljucivanje pretrazivanja sadrzaja 5 kolone
+//            {targets: [0,5], className:'text-center'}//centriranje sadrzaja u kolonama 0 i 5
+//        ],
+//        order:[
+//            [2, 'asc']
+//        ],
+//        lengthMenu: [10, 20, 50, 100 ],
+//        serverSide: true,//na svaki klik vrati informaciju
+//        processing:true,
+//        ajax: "<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'datatable'), 'default', true); ?>"//gde pitamo server
+//    });
     
   $('#disable-warning-dialog').on('submit', function(e) {
         
