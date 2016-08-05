@@ -13,15 +13,15 @@ class Admin_MembersController extends Zend_Controller_Action {
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
 
         $members = $cmsMembersDbTable->search(array(
-            'filters' => array(//filtriram tabelu po
-            'status'=>Application_Model_DbTable_CmsMembers::STATUS_DISABLED,
-            'work_title' =>  	'PHP Developer',
-            'first_name' => array('Aleksandar', 'Aleksandra', 'Bojan')
+            //'filters' => array(//filtriram tabelu po
+            //'status'=>Application_Model_DbTable_CmsMembers::STATUS_DISABLED,
+            //'work_title' =>  	'PHP Developer',
+           // 'first_name' => array('Aleksandar', 'Aleksandra', 'Bojan')
             
-            ),
-            'orders' => array(//sortiram tabelu po
-                'order_number'=>'ASC'
-            ),
+            //),
+            //'orders' => array(//sortiram tabelu po
+            //    'order_number'=>'ASC'
+            //),
             //'limit' => 4,
             //'page' => 2
         ));

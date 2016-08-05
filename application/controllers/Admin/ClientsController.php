@@ -13,14 +13,14 @@ class Admin_ClientsController extends Zend_Controller_Action {
         $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
 
         $clients = $cmsClientsDbTable->search(array(
-            'filters' => array(//filtriram tabelu po
-            'status'=>Application_Model_DbTable_CmsClients::STATUS_ENABLED,
-            'description_search' => 'farm'
+            //'filters' => array(//filtriram tabelu po
+            //'status'=>Application_Model_DbTable_CmsClients::STATUS_ENABLED,
+            //'description_search' => 'farm'
             
-            ),
-            'orders' => array(//sortiram tabelu po
-                'order_number'=>'ASC'
-            ),
+            //),
+            //'orders' => array(//sortiram tabelu po
+                //'order_number'=>'ASC'
+            //),
             //'limit' => 4,
             //'page' => 2
         ));

@@ -13,13 +13,13 @@ class Admin_ServicesController extends Zend_Controller_Action
 
        $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
        $services = $cmsServicesDbTable->search(array(
-            'filters' => array(
-            'description_search'=> 'ideja'
+            //'filters' => array(
+            //'description_search'=> 'ideja'
             
-            ),
-            'orders' => array(//sortiram tabelu po
-                'order_number'=>'DESC'
-            ),
+            //),
+            //'orders' => array(//sortiram tabelu po
+            //    'order_number'=>'DESC'
+            //),
             //'limit' => 4,
             //'page' => 2
         ));
