@@ -60,7 +60,7 @@ class AboutusController extends Zend_Controller_Action
         }
         
         $member = $foundMembers[0];
-//        $memberSlug = $request->geetParam('member_slug');
+//        $memberSlug = $request->getParam('member_slug');
 //        
 //        if(empty($memberSlug)) {
 //            $redirector = $this->getHelper('Redirector');

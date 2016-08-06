@@ -277,5 +277,120 @@ class Admin_SitemapController extends Zend_Controller_Action
         $this->view->sitemapPageBredcrumbs = $sitemapPageBredcrumbs;
     }
     
+        public function disableAction(){
+        $request = $this->getRequest(); //dohvatamo request objekat
+        
+        if(!$request->isPost() || $request->getPost('task') != 'disable'){
+            //request is not post
+            //or task is not delete
+            //redirect to index page
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+        $flashMessenger = $this->getHelper('FlashMessenger');
+        
+        try  {
+            // read $_POST['id']
+            $id = (int) $request->getPost('id'); //iscitavamo parametar id filtriramo ga da bude int
+
+            if ($id <= 0) {
+                throw new Application_Model_Exception_InvalidInput('Invalid Sitemap Page id: ' . $id);
+                
+            }
+
+            $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+
+            $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
+
+            if (empty($sitemapPage)) {
+                throw new Application_Model_Exception_InvalidInput('No Sitemap Page is found with id: ' . $id);
+            }
+
+            $cmsSitemapPagesTable->disableSitemapPage($id);
+
+            $flashMessenger->addMessage('Sitemap Page type : ' . $sitemapPage['type'] . ' with title ' . $sitemapPage['title'] . ' has been disabled.', 'success');
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        } 
+    }
+    
+    public function enableAction(){
+        $request = $this->getRequest(); //dohvatamo request objekat
+        
+        if(!$request->isPost() || $request->getPost('task') != 'enable'){
+            //request is not post
+            //or task is not delete
+            //redirect to index page
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+        $flashMessenger = $this->getHelper('FlashMessenger');
+        
+        try  {
+            // read $_POST['id']
+            $id = (int) $request->getPost('id'); //iscitavamo parametar id filtriramo ga da bude int
+
+            if ($id <= 0) {
+                throw new Application_Model_Exception_InvalidInput('Invalid Sitemap Page id: ' . $id);
+                
+            }
+
+            $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+
+            $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
+
+            if (empty($sitemapPage)) {
+                throw new Application_Model_Exception_InvalidInput('No Sitemap Page is found with id: ' . $id);
+            }
+
+            $cmsSitemapPagesTable->enableSitemapPage($id);
+
+            $flashMessenger->addMessage('SitemapPage : ' . $sitemapPage['type'] . ' with title ' . $sitemapPage['title'] . ' has been enabled.', 'success');
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        } 
+    }
 }
 

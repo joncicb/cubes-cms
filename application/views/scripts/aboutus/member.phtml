@@ -24,6 +24,7 @@ echo $this->headTitle('Member - ' . $member['first_name'] . ' ' . $member['last_
                         <img alt="<?php echo $this->escape($member['first_name']);?>" class="img-polaroid" src="<?php echo $this->memberImgUrl($member);?>">
                     </div>
                     <div class="col-sm-9">
+                        <h3><a href="<?php echo $this->askMemberUrl($member);?>">Ask member</a></h3>
                         <h3>
                         <?php echo $this->escape($member['first_name'] . ' ' . $member['last_name']); ?>
                         </h3>

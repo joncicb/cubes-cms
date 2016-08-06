@@ -27,5 +27,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 //'member_slug' => '', // ovo je default za member_slug
             )
         ));
+        
+        $router->addRoute('contact-us-route', new Zend_Controller_Router_Route_Static(//za rute koje nemaju parametre, moze i da se koristi za maskiranje putanje
+            'contact-us',
+            array(
+                'controller' => 'contact',
+                'action' => 'index'
+            )
+        ));
+        
+         $router->addRoute('askmember-route', new Zend_Controller_Router_Route(
+            'contact-us/ask-member/:id/:askmember_slug',
+            array(
+                'controller' => 'contact',
+                'action' => 'askmember',
+                //'member_slug' => '', // ovo je default za member_slug
+            )
+        ));
     }
 }
