@@ -77,6 +77,25 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract
         
         // sitemapPage who is going to be deleted
         $sitemapPage = $this->getSitemapPageById($id);
+        //1. pronaci sve child elemente u tree strukturi
+        //2. pronaci sve parent id u odnosu child-parent
+        //3. pronaci i ispitati sve pronadjene child vrednosti
+        //4. ukoliko postoje obrisati ih
+        //5.pobrinuti se za order_number zbog tabele
+        
+        $children= $this->search(array(
+           'filters' => array(//filtriram tabelu po
+           'parent_id'=>$id
+            //'status'=>Application_Model_DbTable_CmsClients::STATUS_ENABLED,
+            //'description_search' => 'farm'
+            
+            ), 
+        ));
+        if(count($children)!=0){
+            foreach ($children as $key => $value) {
+                $this->deleteSitemapPage($value['id']);
+            }
+        }
         
         $this->update(array(
            'order_number' => new Zend_Db_Expr('order_number - 1') 
@@ -115,7 +134,7 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract
             
         }
     }
-            /**
+    /**
          * Array $parameters is keeping search parameters.
          * Array $parameters must be in following format:
          *      array(
@@ -131,8 +150,8 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract
          *        'page' =>3 //start from page 3. If no limit is set, page is ignored            
          *      )
          * @param array $parameters Asociative array with keys filters, orders, limit and page
-         */
-        public function search($parameters=array()){
+         */        
+    public function search($parameters=array()){
             $select = $this->select();
             
             if(isset($parameters['filters'])){
@@ -175,7 +194,7 @@ class Application_Model_DbTable_CmsSitemapPages extends Zend_Db_Table_Abstract
             //die($select->assemble());
             
             return $this->fetchAll($select)->toArray();
-        }
+        }    
         /**
          * 
          * @param array $filters See function search $parameters['filters']

@@ -392,5 +392,125 @@ class Admin_SitemapController extends Zend_Controller_Action
                             ), 'default', true);
         } 
     }
+    public function deleteAction(){
+        $request = $this->getRequest(); //dohvatamo request objekat
+        
+        if(!$request->isPost() || $request->getPost('task') != 'delete'){
+            //request is not post
+            //or task is not delete
+            //redirect to index page
+            
+            $redirector = $this->getHelper('Redirector'); 
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+        $flashMessenger = $this->getHelper('FlashMessenger');
+        
+        try  {
+            
+            $id = (int) $request->getPost('id'); 
+
+            if ($id <= 0) {
+                throw new Application_Model_Exception_InvalidInput('Invalid Sitemap Page id: ' . $id);
+                
+            }
+
+            $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+
+            $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
+
+            if (empty($sitemapPage)) {
+                throw new Application_Model_Exception_InvalidInput('No Sitemap Page is found with id: ' . $id);
+            }
+
+            $cmsSitemapPagesTable->deleteSitemapPage($id);
+
+            $flashMessenger->addMessage('Sitemap Page : ' . $sitemapPage['title'] . ' has been deleted', 'success');
+            $redirector = $this->getHelper('Redirector'); 
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+            
+            $redirector = $this->getHelper('Redirector'); 
+            $redirector->setExit(true)
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemapPages',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        } 
+    }
+    public function updateorderAction(){
+       $request = $this->getRequest(); //dohvatamo request objekat
+        
+        if(!$request->isPost() || $request->getPost('task') != 'saveOrder'){
+            //request is not post
+            //or task is not saveOrder
+            //redirect to index page
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+        $flashMessenger = $this->getHelper('FlashMessenger'); 
+        
+        try{
+           $sortedIds =  $request->getPost('sorted_ids'); //iscitavamo parametar id filtriramo ga da bude int
+
+            if(empty($sortedIds)){
+                
+                throw new Application_Model_Exception_InvalidInput('Sorted ids are not sent');
+                
+            }
+            $sortedIds = trim($sortedIds, ' ,');
+            
+            
+            
+            if(!preg_match('/^[0-9]+(,[0-9]+)*$/', $sortedIds)){
+                throw new Application_Model_Exception_InvalidInput('Invalid sorted ids: ' . $sortedIds);
+            }
+            
+            $sortedIds = explode(',', $sortedIds);
+            
+            $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
+            
+            $cmsSitemapPagesTable->updateOrderOfSitemapPages($sortedIds);
+            
+            $flashMessenger->addMessage('Order is successfully saved', 'success');
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemap',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+            
+            
+        } catch (Application_Model_Exception_InvalidInput $ex) {
+            $flashMessenger->addMessage($ex->getMessage(), 'errors');
+            
+            $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _sitemapPages
+                    ->gotoRoute(array(
+                        'controller' => 'admin_sitemapPages',
+                        'action' => 'index',
+                        'id' => $sitemapPage['parent_id']
+                            ), 'default', true);
+        }
+    }
 }
 
