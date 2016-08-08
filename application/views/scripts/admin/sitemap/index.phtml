@@ -95,7 +95,7 @@ $this->headTitle('Site Map Pages');
 							<td class="text-center">
 								<div class="btn-group btn-group-sm" role="group" aria-label="...">
 									<a 
-										href="#"
+                                                                            href="<?php echo $this->sitemapPageUrl($sitemapPage['id']);?>"
 										target="_blank"
 										type="button" class="btn btn-default" title="preview"><i class="glyphicon glyphicon-eye-open"></i></a>
 									<a 
@@ -130,7 +130,7 @@ $this->headTitle('Site Map Pages');
 							<td class="text-center">
 								<div class="btn-group btn-group-sm" role="group" aria-label="...">
 									<a 
-										href="#"
+										href="<?php echo $this->sitemapPageUrl($sitemapPage['id']);?>"
 										target="_blank"
 										type="button" class="btn btn-default" title="preview"><i class="glyphicon glyphicon-eye-open"></i></a>
 									<a 

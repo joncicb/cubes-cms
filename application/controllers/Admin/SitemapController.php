@@ -443,7 +443,7 @@ class Admin_SitemapController extends Zend_Controller_Action
             $redirector = $this->getHelper('Redirector'); 
             $redirector->setExit(true)
                     ->gotoRoute(array(
-                        'controller' => 'admin_sitemapPages',
+                        'controller' => 'admin_sitemap',
                         'action' => 'index',
                         'id' => $sitemapPage['parent_id']
                             ), 'default', true);

@@ -1,0 +1,60 @@
+<?php
+$sitemapPage=$this->sitemapPage;
+$this->headTitle($sitemapPage['title']);
+$this->headMeta()->appendName('description', $sitemapPage['description']);
+?>
+<div id="highlighted">
+    <div class="container">
+        <div class="header">
+            <h2 class="page-title">
+                <span><?php echo $this->escape($sitemapPage['title'])?></span> 
+                <small><?php echo $this->escape($sitemapPage['description'])?></small>
+            </h2>
+        </div>
+    </div>
+</div>
+<div id="content">
+    <div class="container">
+        <!-- About -->
+        <div class="row">
+            <div class="col-md-8">
+                <!-- About company -->
+                <div class="block">
+                    <?php
+                    echo $sitemapPage['body'];//radimo bez escape-a zato sto nam trebaju tagovi
+                    ?>
+                </div>
+                <!-- The team -->
+
+                <!-- Quotes -->
+
+            </div>
+            <!-- sidebar -->
+            <div class="col-md-4 sidebar sidebar-right">
+                <div class="inner">
+                    <div class="block">
+                        <h3 class="block-title sub-title">
+                            <span>About Menu</span>
+                        </h3>
+                        <ul class="nav nav-list secondary-nav">
+                            <li>
+                                <a href="#began"><i class="fa fa-chevron-right"></i> How It All Began</a>
+                            </li>
+                            <li>
+                                <a href="#team"><i class="fa fa-chevron-right"></i> Meet The Team</a>
+                            </li>
+                            <li>
+                                <a href="#testimonials"><i class="fa fa-chevron-right"></i> Testimonials</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-chevron-right"></i> Another menu item</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,7 @@
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
     protected function _initRouter () {
-        
+        $this->bootstrap('db');//resurs db daje konekciju ka bazi
         // POSLEDNJA DODATA RUTA IMA NAJVECI PRIORITET!!!
         
         $router = Zend_Controller_Front::getInstance()->getRouter();
@@ -44,5 +44,41 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 //'member_slug' => '', // ovo je default za member_slug
             )
         ));
+        
+        $sitemapPagesMap = Application_Model_DbTable_CmsSitemapPages::getSitemapPagesMap();//staticki poziv funkcije
+        
+        foreach ($sitemapPagesMap as $sitemapPageId => $sitemapPageMap) {
+            if($sitemapPageMap['type']=='StaticPage'){
+            $router->addRoute('static-page-route-' . $sitemapPageId, new Zend_Controller_Router_Route_Static(//za rute koje nemaju parametre, moze i da se koristi za maskiranje putanje
+            $sitemapPageMap['url'],
+            array(
+                'controller' => 'staticpage',
+                'action' => 'index',
+                'sitemap_page_id'=>$sitemapPageId
+            )
+        ));  
+            }
+             if($sitemapPageMap['type']=='AboutUsPage'){
+            $router->addRoute('static-page-route-' . $sitemapPageId, new Zend_Controller_Router_Route_Static(//za rute koje nemaju parametre, moze i da se koristi za maskiranje putanje
+            $sitemapPageMap['url'],
+            array(
+                'controller' => 'aboutus',
+                'action' => 'index',
+                'sitemap_page_id'=>$sitemapPageId
+                 
+            )
+        ));  
+            }
+            if($sitemapPageMap['type']=='CounactUsPage'){
+            $router->addRoute('static-page-route-' . $sitemapPageId, new Zend_Controller_Router_Route_Static(//za rute koje nemaju parametre, moze i da se koristi za maskiranje putanje
+            $sitemapPageMap['url'],
+            array(
+                'controller' => 'contact',
+                'action' => 'index',
+                'sitemap_page_id'=>$sitemapPageId
+            )
+        ));  
+            }
+        }
     }
 }
