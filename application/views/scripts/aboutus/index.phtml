@@ -1,11 +1,16 @@
-		<div id="highlighted">
+<?php
+$sitemapPage=$this->sitemapPage;
+$this->headTitle($sitemapPage['title']);
+$this->headMeta()->appendName('description', $sitemapPage['description']);
+?>
+<div id="highlighted">
 			<div class="container">
 			<?php echo $this->headTitle('About Us');?>	
                             <div class="header">
-					<h2 class="page-title">
-						<span>About Us</span> 
-						<small>Find out who makes us tick</small>
-					</h2>
+                                <h2 class="page-title">
+                                    <span><?php echo $this->escape($sitemapPage['title']) ?></span> 
+                                    <small><?php echo $this->escape($sitemapPage['description']) ?></small>
+                                </h2>
 				</div>
 			</div>
 		</div>
@@ -15,20 +20,12 @@
 				<div class="row">
 					<div class="col-md-8">
 						<!-- About company -->
-						<div class="block">
-							<h3 class="block-title sub-title">
-								How It All Began
-							</h3>
-							<p>Elit pellentesque dolor facilisis aenean eu tempor, phasellus lundium risus dolor, augue, ridiculus nascetur odio ridiculus? Hac ac, adipiscing ut dapibus. Adipiscing cras in? Magna nisi augue odio! Pellentesque magnis? Lacus integer magnis purus sed mus lorem aliquam lectus, placerat pellentesque quis, nunc urna turpis lorem. Etiam velit, augue sed magnis placerat! In cras, dignissim lorem, porttitor in velit in, nisi vut a cursus cum, odio sagittis nisi turpis? Mus penatibus non, pulvinar porttitor arcu hac ut et ac integer? Ultricies est etiam sit. Urna ridiculus facilisis pulvinar, ultrices augue? Parturient velit non tincidunt sit sagittis pulvinar phasellus rhoncus hac! Sit porta. Tristique, hac. Porttitor adipiscing ac. Ac tincidunt a porttitor natoque auctor ultricies! Proin nunc scelerisque? Habitasse adipiscing? Cursus.</p>
-							<h3 class="block-title sub-title">
-								Our Philosophy
-							</h3>
-							<p>Elit pellentesque dolor facilisis aenean eu tempor, phasellus lundium risus dolor, augue, ridiculus nascetur odio ridiculus? Hac ac, adipiscing ut dapibus. Adipiscing cras in? Magna nisi augue odio! Pellentesque magnis? Lacus integer magnis purus sed mus lorem aliquam lectus, placerat pellentesque quis, nunc urna turpis lorem. Etiam velit, augue sed magnis placerat! In cras, dignissim lorem, porttitor in velit in, nisi vut a cursus cum, odio sagittis nisi turpis? Mus penatibus non, pulvinar porttitor arcu hac ut et ac integer? Ultricies est etiam sit. Urna ridiculus facilisis pulvinar, ultrices augue? Parturient velit non tincidunt sit sagittis pulvinar phasellus rhoncus hac! Sit porta. Tristique, hac. Porttitor adipiscing ac. Ac tincidunt a porttitor natoque auctor ultricies! Proin nunc scelerisque? Habitasse adipiscing? Cursus.</p>
-							<h3 class="block-title sub-title">
-								What's In A Name?
-							</h3>
-							<p>Elit pellentesque dolor facilisis aenean eu tempor, phasellus lundium risus dolor, augue, ridiculus nascetur odio ridiculus? Hac ac, adipiscing ut dapibus. Adipiscing cras in? Magna nisi augue odio! Pellentesque magnis? Lacus integer magnis purus sed mus lorem aliquam lectus, placerat pellentesque quis, nunc urna turpis lorem. Etiam velit, augue sed magnis placerat! In cras, dignissim lorem, porttitor in velit in, nisi vut a cursus cum, odio sagittis nisi turpis? Mus penatibus non, pulvinar porttitor arcu hac ut et ac integer? Ultricies est etiam sit. Urna ridiculus facilisis pulvinar, ultrices augue? Parturient velit non tincidunt sit sagittis pulvinar phasellus rhoncus hac! Sit porta. Tristique, hac. Porttitor adipiscing ac. Ac tincidunt a porttitor natoque auctor ultricies! Proin nunc scelerisque? Habitasse adipiscing? Cursus.</p>
-						</div>
+                                                <div class="block">
+                                                    <h3 class="block-title sub-title">
+                                                        <?php
+                                                        echo $sitemapPage['body']; //radimo bez escape-a zato sto nam trebaju tagovi
+                                                        ?>
+                                                </div>
 						<!-- The team -->
 						<div class="block margin-top-large">
 							<h3 id="team" class="block-title">

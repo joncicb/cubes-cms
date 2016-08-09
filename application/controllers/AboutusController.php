@@ -26,8 +26,37 @@ class AboutusController extends Zend_Controller_Action
         //debug za db select - vraca se sql upit
        //die($select->assemble());
         
-        $members = $cmsMembersDbTable->fetchAll($select);
         
+       $request= $this->getRequest();//saljemo zahtev
+        $sitemapPageId= (int)$request->getParam('sitemap_page_id');//dohvatamo parametar
+        //proveravamo page id
+        if($sitemapPageId<=0){
+            throw new Zend_Controller_Router_Exception('Invalid Sitemap Page id: ' . $sitemapPageId, 404);
+        }
+        //komunikacija sa bazom
+        $cmsSitemapPageDbTable=new Application_Model_DbTable_CmsSitemapPages();
+        
+        $sitemapPage=$cmsSitemapPageDbTable->getSitemapPageById($sitemapPageId);
+        
+        if(!$sitemapPage){
+            throw new Zend_Controller_Router_Exception('No Sitemap Page is found for id: ' . $sitemapPageId, 404);
+        }
+        
+        if(
+                $sitemapPage['status']==Application_Model_DbTable_CmsSitemapPages::STATUS_DISABLED
+                //proverava da li nije ulogovan user
+                && !Zend_Auth::getInstance()->hasIdentity()
+        ){
+            throw new Zend_Controller_Router_Exception('No Sitemap Page is disabled: ' . $sitemapPageId, 404);
+        }
+            
+        
+        
+        
+        
+        
+        $members = $cmsMembersDbTable->fetchAll($select);
+        $this->view->sitemapPage = $sitemapPage;
         $this->view->members = $members;//prosledjivanje rezultata
     }
     public function memberAction()
