@@ -223,6 +223,7 @@ $form->setElementDecorators(array('ViewHelper'));
 		</div>
 	</div>
 </div>
+<?php $this->inlineScript()->appendFile($this->baseUrl('/admin/bower_components/ckeditor/ckeditor.js')); ?>
 <script>
 <?php
 $this->inlineScript()->captureStart();
@@ -258,7 +259,23 @@ $('#short_title').on('focusout', function(e){
    }
    
 });    
-    
+        //body nije body tag vec element sa id="body"
+    //that is our textarea with name="body" and id="body"
+    CKEDITOR.replace('body', {
+        
+            'contentsCss':[
+                '<?php echo $this->baseUrl('/plugins/bootstrap/dist/css/bootstrap.min.css'); ?>',
+                '<?php echo $this->baseUrl('/plugins/font-awesome/css/font-awesome.min.css'); ?>',
+                '<?php echo $this->baseUrl('/css/theme-style.css'); ?>',
+                '<?php echo $this->baseUrl('/css/custom-style.css'); ?>',
+                '<?php echo $this->baseUrl('/css/colour-blue.css'); ?>',
+                'https://fonts.googleapis.com/css?family=Monda:400,700'
+            ],
+            allowedContent:true,
+            height:600,
+            bodyClass:'block',//mora da bude isti ako 
+            filebrowserBrowseUrl:'<?php echo $this->url(array('controller'=>'admin_filemanager', 'action'=>'popup'),'default', true) ?>'
+    });
 <?php
 $this->inlineScript()->captureEnd();
 ?>
