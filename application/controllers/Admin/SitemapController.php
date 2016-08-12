@@ -77,6 +77,9 @@ class Admin_SitemapController extends Zend_Controller_Action
      if($parentId < 0){
             throw new Zend_Controller_Router_Exception('Invalid id for sitemap pages', 404);//kad ovako bacamo exception korisniku se direktno pojavljuje sta pise ovde
         }
+     
+     $parentType = '';
+     
         
      $cmsSitemapPagesDbTable = new Application_Model_DbTable_CmsSitemapPages();
      
@@ -87,6 +90,8 @@ class Admin_SitemapController extends Zend_Controller_Action
          if(!$parentSitemapPage){
              throw new Zend_Controller_Router_Exception('No sitemap page is found for id: '. $parentId, 404);
          }
+         $parentType=$parentSitemapPage['type'];
+         
      }
      
      
@@ -97,7 +102,7 @@ class Admin_SitemapController extends Zend_Controller_Action
             'errors' => $flashMessenger->getMessages('errors')
         );
 
-        $form = new Application_Form_Admin_SitemapPageAdd($parentId);
+        $form = new Application_Form_Admin_SitemapPageAdd($parentId, $parentType);
 
         //default form data
         $form->populate(array(
@@ -192,7 +197,7 @@ class Admin_SitemapController extends Zend_Controller_Action
             //prekida se izvrsavanje programa i prikazuje se "Page not found"
             throw new Zend_Controller_Router_Exception('Invalid Sitemap Page id: ' . $id, 404);
         }
-
+        
         $cmsSitemapPagesTable = new Application_Model_DbTable_CmsSitemapPages();
 
         $sitemapPage = $cmsSitemapPagesTable->getSitemapPageById($id);
@@ -201,6 +206,15 @@ class Admin_SitemapController extends Zend_Controller_Action
 
             throw new Zend_Controller_Router_Exception('No sitemapPage is found with id: ' . $id, 404);
         }
+        
+        
+        $parentType='';
+        if($sitemapPage['parent_id'] != 0 ){
+            $parentSitemapPage = $cmsSitemapPagesTable->getSitemapPageById($sitemapPage['parent_id']);
+            
+            $parentType=$parentSitemapPage['type'];
+        }
+        
         //$this->view->sitemapPage = $sitemapPage;//prosledjujemo $sitemapPagea prezentacionoj logici
         $flashMessenger = $this->getHelper('FlashMessenger');
 
@@ -209,7 +223,7 @@ class Admin_SitemapController extends Zend_Controller_Action
             'errors' => $flashMessenger->getMessages('errors')
         );
 
-        $form = new Application_Form_Admin_SitemapPageEdit($sitemapPage['id'], $sitemapPage['parent_id']);
+        $form = new Application_Form_Admin_SitemapPageEdit($sitemapPage['id'], $sitemapPage['parent_id'], $parentType);
 
         //default form data
         $form->populate($sitemapPage);
