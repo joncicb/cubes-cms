@@ -41,7 +41,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             'ContactPage'=>1
         );
         
-        Zend_Registry::set('sitemapPageTypes', $sitemapPageTypes);
+        Zend_Registry::set('sitemapPageTypes', $sitemapPageTypes);//puni se samo u bootstrap fajlu-preporuka registar vrednosti koje koristimo kroz aplikaciju
         Zend_Registry::set('rootSitemapPageTypes', $rootSitemapPageTypes);
         
         // POSLEDNJA DODATA RUTA IMA NAJVECI PRIORITET!!!
