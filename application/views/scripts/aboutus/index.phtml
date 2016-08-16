@@ -62,7 +62,7 @@ $this->headMeta()->appendName('description', $sitemapPage['description']);
                                                                         data-original-title="<?php echo $this->escape($member['first_name'] . '' . $member['last_name']); ?>" 
                                                                         data-content="<?php echo $this->escape($member['work_title']); ?>" 
                                                                         class="_popover" 
-                                                                        href="<?php echo $memberUrl ?>"
+                                                                        href="<?php echo $this->memberUrl($member); ?>"
                                                                         ><?php echo $this->escape($member['first_name']); ?></a>
                                                                 </h4>
                                                             </li>
