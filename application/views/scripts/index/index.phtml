@@ -1,184 +1,141 @@
-		<!-- ======== @Region: #highlighted ======== -->
-		<div id="highlighted">
-			<!-- Flexslider - May use standard Bootstrap markup within slides - For best results use images all the same size (in this example they are 600px x 400px) -->
-			<!--Flexslider Showshow-->
-			<section class="flexslider-wrapper container">
-				<div class="flexslider" id="index-slider">
-					<!--The Slides-->
-					<div class="slides">
-						<div class="slide">
-							<div class="row">
-								<div class="col-sm-6">
-									<img src="/uploads/index-slides/1.jpg" alt="Slide 1 Title" class="animated fadeInDownBig" />
-								</div>
-								<div class="col-sm-6 caption animated fadeInUpBig">
-									<h2>
-										Slide 1 Title
-									</h2>
-									<p>
-										Slide 1 Description HTML
-									</p>
-									<a href="#slide-1-link-url" class="btn btn-lg btn-primary">slide 1 link label</a>
-								</div>
-							</div>
-						</div>
-						<div class="slide">
-							<div class="row">
-								<div class="col-sm-6">
-									<img src="/uploads/index-slides/1.jpg" alt="Slide 1 Title" class="animated fadeInDownBig" />
-								</div>
-								<div class="col-sm-6 caption animated fadeInUpBig">
-									<h2>
-										Slide 1 Title
-									</h2>
-									<p>
-										Slide 1 Description HTML
-									</p>
-									<a href="#slide-1-link-url" class="btn btn-lg btn-primary">slide 1 link label</a>
-								</div>
-							</div>
-						</div>
-						<div class="slide">
-							<div class="row">
-								<div class="col-sm-6">
-									<img src="/uploads/index-slides/2.jpg" alt="Slide 2 Title" class="animated fadeInDownBig" />
-								</div>
-								<div class="col-sm-6 caption animated fadeInUpBig">
-									<h2>
-										Slide 2 Title
-									</h2>
-									<p>
-										Slide 2 Description HTML
-									</p>
-									<a href="#slide-2-link-url" class="btn btn-lg btn-primary">slide 2 link label</a>
-								</div>
-							</div>
-						</div>
-						<div class="slide">
-							<div class="row">
-								<div class="col-sm-6">
-									<img src="/uploads/index-slides/3.jpg" alt="Slide 3 Title" class="animated fadeInDownBig" />
-								</div>
-								<div class="col-sm-6 caption animated fadeInUpBig">
-									<h2>
-										Slide 3 Title
-									</h2>
-									<p>
-										Slide 3 Description HTML
-									</p>
-									<a href="#slide-3-link-url" class="btn btn-lg btn-primary">slide 3 link label</a>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-				</div>
-			</section>
-		</div>
+<?php
+$services=$this->services;
+$indexSlides=$this->indexSlides;
+$this->headTitle('Start Page');
 
-		<!-- ======== @Region: #content ======== -->
-		<div id="content">
-			<div class="container">
-				<!-- Services -->
-				<div class="block services margin-top-large">
-					<h2 class="block-title">
-						<span>Our Services</span> 
-						<small><a href="/services">View all</a></small>
-					</h2>
-					<ul class="thumbnails row">
-						<li class="col-sm-3">
-							<h3 class="title">
-								<i class="glyphicon glyphicon-wrench icon-small icon-inverse-80 _icon-circle"></i> Web
-							</h3>
-							<p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-						</li>
-						<li class="col-sm-3">
-							<h3 class="title">
-								<i class="glyphicon glyphicon-search icon-small icon-inverse-80 _icon-circle"></i> SEO
-							</h3>
-							<p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-						</li>
-						<li class="col-sm-3">
-							<h3 class="title">
-								<i class="glyphicon glyphicon-pencil icon-small icon-inverse-80 _icon-circle"></i> Design
-							</h3>
-							<p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-						</li>
-						<li class="col-sm-3">
-							<h3 class="title">
-								<i class="glyphicon glyphicon-shopping-cart icon-small icon-inverse-80 _icon-circle"></i> eCommerce
-							</h3>
-							<p>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio! Elementum tortor sociis in eu dis dictumst pulvinar lorem nec aliquam a nascetur.</p>
-						</li>
-					</ul>
-				</div>
-				<!-- portfolio -->
-				<!-- Recommended screenshot size: 400px x 300px -->
-				<div class="block portfolio margin-top-large">
-					<h2 class="block-title">
-						<span>Photo galleries</span> 
-						<small><a href="#link-to-all-photo-galleries">View all</a></small>
-					</h2>
-					<ul class="thumbnails row projects">
-						<li class="col-md-4 ">
-							<div class="">
-								<div class="project">
-									<a class="lnk-polaroid" href="#link-to-photo-gallery-1">
-										<img src="/uploads/photo-galleries/1.jpg" alt="Photo Gallery 1 Title" class="img-polaroid img-responsive" />
-									</a>
-									<h3 class="title">
-										<a href="#link-to-photo-gallery-1">Photo Gallery 1 Title</a>
-										<small class="pull-right"></small>
-									</h3>
-									<p class="muted">Photo Gallery 1 Description</p>
-								</div>
-							</div>
-						</li>
-						<li class="col-md-4 ">
-							<div class="">
-								<div class="project">
-									<a class="lnk-polaroid" href="#link-to-photo-gallery-2">
-										<img src="/uploads/photo-galleries/2.jpg" alt="Photo Gallery 2 Title" class="img-polaroid img-responsive" />
-									</a>
-									<h3 class="title">
-										<a href="#link-to-photo-gallery-2">Photo Gallery 2 Title</a>
-										<small class="pull-right"></small>
-									</h3>
-									<p class="muted">Photo Gallery 2 Description</p>
-								</div>
-							</div>
-						</li>
-						<li class="col-md-4 ">
-							<div class="">
-								<div class="project">
-									<a class="lnk-polaroid" href="#link-to-photo-gallery-3">
-										<img src="/uploads/photo-galleries/3.jpg" alt="Photo Gallery 3 Title" class="img-polaroid img-responsive" />
-									</a>
-									<h3 class="title">
-										<a href="#link-to-photo-gallery-3">Photo Gallery 3 Title</a>
-										<small class="pull-right"></small>
-									</h3>
-									<p class="muted">Photo Gallery 3 Description</p>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-<?php 
+?>
+
+<!-- ======== @Region: #highlighted ======== -->
+<div id="highlighted">
+    <!-- Flexslider - May use standard Bootstrap markup within slides - For best results use images all the same size (in this example they are 600px x 400px) -->
+    <!--Flexslider Showshow-->
+    <section class="flexslider-wrapper container">
+        <div class="flexslider" id="index-slider">           
+            <!--The Slides-->
+            <div class="slides">
+                <?php
+                foreach ($indexSlides as $indexSlide) {
+                    ?>
+                    <div class="slide">
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <img src="<?php echo $this->indexSlideImgUrl($indexSlide); ?>" alt="<?php echo $this->escape($indexSlide['title']); ?>" class="animated fadeInDownBig" />
+                            </div>
+                            <div class="col-sm-6 caption animated fadeInUpBig">
+                                <h2>
+                                    <?php echo $this->escape($indexSlide['title']); ?>
+                                </h2>
+                                <p>
+                                    <?php echo $this->escape($indexSlide['description']); ?>
+                                </p>
+                                
+                                    <?php if($indexSlide['link_type'] != 'NoLink') {?>
+                                <a target="_blank" href="<?php echo $this->indexSlideLinkUrl($indexSlide);?>" class="btn btn-lg btn-primary">
+                                    <?php echo $this->escape($indexSlide['link_label']); ?></a>
+                                  <?php  }?>
+                                
+                                </div>
+
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>           
+        </div>
+    </section>
+</div>
+
+<!-- ======== @Region: #content ======== -->
+<div id="content">
+    <div class="container">
+        <!-- Services -->
+        <div class="block services margin-top-large">
+            <h2 class="block-title">
+                <span>Our Services</span> 
+                <small><a href="/services">View all</a></small>
+            </h2>
+            <ul class="thumbnails row">
+                <?php
+                foreach ($this->services as $service) {
+                ?>
+                    <li class="col-sm-3">
+                        <h3 class="title">
+                            <i class="<?php echo $this->escape($service['icon']); ?>"></i> <?php echo $this->escape($service['title']); ?>
+                        </h3>
+                        <p><?php echo $this->escape($service['description']); ?></p>
+                    </li>
+                <?php } ?>
+                </ul>
+        </div>
+        <!-- portfolio -->
+        <!-- Recommended screenshot size: 400px x 300px -->
+        <div class="block portfolio margin-top-large">
+            <h2 class="block-title">
+                <span>Photo galleries</span> 
+                <small><a href="#link-to-all-photo-galleries">View all</a></small>
+            </h2>
+            <ul class="thumbnails row projects">
+                <li class="col-md-4 ">
+                    <div class="">
+                        <div class="project">
+                            <a class="lnk-polaroid" href="#link-to-photo-gallery-1">
+                                <img src="/uploads/photo-galleries/1.jpg" alt="Photo Gallery 1 Title" class="img-polaroid img-responsive" />
+                            </a>
+                            <h3 class="title">
+                                <a href="#link-to-photo-gallery-1">Photo Gallery 1 Title</a>
+                                <small class="pull-right"></small>
+                            </h3>
+                            <p class="muted">Photo Gallery 1 Description</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-md-4 ">
+                    <div class="">
+                        <div class="project">
+                            <a class="lnk-polaroid" href="#link-to-photo-gallery-2">
+                                <img src="/uploads/photo-galleries/2.jpg" alt="Photo Gallery 2 Title" class="img-polaroid img-responsive" />
+                            </a>
+                            <h3 class="title">
+                                <a href="#link-to-photo-gallery-2">Photo Gallery 2 Title</a>
+                                <small class="pull-right"></small>
+                            </h3>
+                            <p class="muted">Photo Gallery 2 Description</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-md-4 ">
+                    <div class="">
+                        <div class="project">
+                            <a class="lnk-polaroid" href="#link-to-photo-gallery-3">
+                                <img src="/uploads/photo-galleries/3.jpg" alt="Photo Gallery 3 Title" class="img-polaroid img-responsive" />
+                            </a>
+                            <h3 class="title">
+                                <a href="#link-to-photo-gallery-3">Photo Gallery 3 Title</a>
+                                <small class="pull-right"></small>
+                            </h3>
+                            <p class="muted">Photo Gallery 3 Description</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php
 $this->headLink()->appendStylesheet($this->baseUrl('/plugins/flexslider/flexslider.css'));
 $this->inlineScript()->appendFile($this->baseUrl('/plugins/flexslider/jquery.flexslider-min.js'));
 ?>
 <script>
-	<?php $this->inlineScript()->captureStart();?>
-		$('#index-slider').flexslider({
-			animation: 'slide',
-			selector: '.slides > .slide',
-			controlNav: true,
-			smoothHeight: true,
-			animationLoop: true,
-			randomize: false
-		});
-	<?php $this->inlineScript()->captureEnd();?>
+<?php $this->inlineScript()->captureStart(); ?>
+    $('#index-slider').flexslider({
+        animation: 'slide',
+        selector: '.slides > .slide',
+        controlNav: true,
+        smoothHeight: true,
+        animationLoop: true,
+        randomize: false
+    });
+      
+    
+<?php $this->inlineScript()->captureEnd(); ?>
 </script>

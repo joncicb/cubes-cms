@@ -9,15 +9,34 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
-        $select = $cmsClientsDbTable->select();
+        $cmsIndexSlidesDbTable = new Application_Model_DbTable_CmsIndexSlides();
+
+        $indexSlides = $cmsIndexSlidesDbTable->search(array(
+            'filters' => array(
+                'status'=>Application_Model_DbTable_CmsIndexSlides::STATUS_ENABLED,
+                //'link_type'=>array('InternalLink', 'ExternalLink'),
+            //),
+            //'orders' => array(//sortiram tabelu po
+               // 'order_number'=>'DESC'
+            ),
+            //'limit' => 4,
+            //'page' => 2
+        ));
+        $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
+        $services = $cmsServicesDbTable->search(array(
+            'filters' => array(
+                'status'=>  Application_Model_DbTable_CmsServices::STATUS_ENABLED,
+
+            ),
+            'orders' => array(//sortiram tabelu po
+                'order_number'=>'ASC'
+            ),
+            'limit' => 4,
+            //'page' => 2
+        ));
         
-        $select->where('status = ?', Application_Model_DbTable_CmsClients::STATUS_ENABLED)
-                ->order('order_number');
-        
-        $clients = $cmsClientsDbTable->fetchAll($select);
-        
-        $this->view->clients = $clients;
+        $this->view->services = $services;
+        $this->view->indexSlides = $indexSlides;
     }
     public function testAction()
     {
