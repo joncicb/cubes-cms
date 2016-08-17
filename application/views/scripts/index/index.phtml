@@ -31,7 +31,7 @@ $this->headTitle('Start Page');
                                 </p>
                                 
                                     <?php if($indexSlide['link_type'] != 'NoLink') {?>
-                                <a target="_blank" href="<?php echo $this->indexSlideLinkUrl($indexSlide);?>" class="btn btn-lg btn-primary">
+                                <a href="<?php echo $this->indexSlideLinkUrl($indexSlide);?>" class="btn btn-lg btn-primary">
                                     <?php echo $this->escape($indexSlide['link_label']); ?></a>
                                   <?php  }?>
                                 

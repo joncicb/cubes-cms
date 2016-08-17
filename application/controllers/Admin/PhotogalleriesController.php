@@ -1,6 +1,6 @@
 <?php
 
-class Admin_MembersController extends Zend_Controller_Action {
+class Admin_PhotogalleriesController extends Zend_Controller_Action {
 
     public function indexAction() {
         $flashMessenger = $this->getHelper('FlashMessenger');
@@ -9,12 +9,12 @@ class Admin_MembersController extends Zend_Controller_Action {
             'success' => $flashMessenger->getMessages('success'),
             'errors' => $flashMessenger->getMessages('errors')
         );
-        //prikaz svih membera
-        $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
+        //prikaz svih photoGallerya
+        $cmsPhotoGalleriesDbTable = new Application_Model_DbTable_CmsPhotoGalleries();
 
-        $members = $cmsMembersDbTable->search(array(
+        $photoGalleries = $cmsPhotoGalleriesDbTable->search(array(
             //'filters' => array(//filtriram tabelu po
-            //'status'=>Application_Model_DbTable_CmsMembers::STATUS_DISABLED,
+            //'status'=>Application_Model_DbTable_CmsPhotoGalleries::STATUS_DISABLED,
             //'work_title' =>  	'PHP Developer',
            // 'first_name' => array('Aleksandar', 'Aleksandra', 'Bojan')
             
@@ -27,7 +27,7 @@ class Admin_MembersController extends Zend_Controller_Action {
         ));
 
 
-        $this->view->members = $members; //prosledjivanje rezultata
+        $this->view->photoGalleries = $photoGalleries; //prosledjivanje rezultata
         $this->view->systemMessages = $systemMessages;
     }
 
@@ -41,7 +41,7 @@ class Admin_MembersController extends Zend_Controller_Action {
             'errors' => $flashMessenger->getMessages('errors')
         );
 
-        $form = new Application_Form_Admin_MemberAdd();
+        $form = new Application_Form_Admin_PhotoGalleryAdd();
 
         //default form data
         $form->populate(array(
@@ -54,66 +54,67 @@ class Admin_MembersController extends Zend_Controller_Action {
 
                 //check form is valid
                 if (!$form->isValid($request->getPost())) {//validacija forme ukoliko nisu validni/dobri podaci iz forme bacamo exception i idemo na catch
-                    throw new Application_Model_Exception_InvalidInput('Invalid form data was sent for new member');
+                    throw new Application_Model_Exception_InvalidInput('Invalid form data was sent for new photoGallery');
                 }
 
                 //get form data
                 $formData = $form->getValues(); //ovo treba da se upise u bazu(podaci iz forme)
                 
                 
-                //remove key member_photo form because there is no column member_photo in cms_member
-                unset($formData['member_photo']);
+                //remove key photo_gallery_leading_photo form because there is no column photo_gallery_leading_photo in cms_photoGallery
+                unset($formData['photo_gallery_leading_photo']);
                 //die(print_r($formData, true));
-                $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+                $cmsPhotoGalleriesTable = new Application_Model_DbTable_CmsPhotoGalleries();
                 
                 
                 
-                //insert member returns ID of the new member
-                $memberId =  $cmsMembersTable->insertMember($formData);
+                //insert photoGallery returns ID of the new photoGallery
+                $photoGalleryId =  $cmsPhotoGalleriesTable->insertPhotoGallery($formData);
 
                 
-                if($form->getElement('member_photo')->isUploaded()) {
+                if($form->getElement('photo_gallery_leading_photo')->isUploaded()) {
                 //photo is uploaded
-                    $fileInfos = $form->getElement('member_photo')->getFileInfo('member_photo');
-                    $fileInfo=$fileInfos['member_photo'];
+                    $fileInfos = $form->getElement('photo_gallery_leading_photo')->getFileInfo('photo_gallery_leading_photo');
+                    $fileInfo=$fileInfos['photo_gallery_leading_photo'];
                     
                     try{
                       //open uploaded photo in temporary directory
-                     $memberPhoto = Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
+                     $photoGalleryPhoto = Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
                      //dimenzionise sliku
-                     $memberPhoto->fit(150, 150);
+                     $photoGalleryPhoto->fit(360,270);
                      
-                     $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $memberId . '.jpg');
+                     $photoGalleryPhoto->save(PUBLIC_PATH . '/uploads/photo-galleries/' . $photoGalleryId . '.jpg');
                      
                     } catch (Exception $ex) {
-                        $flashMessenger->addMessage('Member has been saved, but error occured during image processing', 'errors'); //u sesiju upisujemo poruku member has been saved
+                        $flashMessenger->addMessage('Photo Gallery has been saved, but error occured during image processing', 'errors'); //u sesiju upisujemo poruku photoGallery has been saved
                 //redirect to same or another page
                         $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-                        $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+                        $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                             ->gotoRoute(array(
-                                'controller' => 'admin_members',
+                                'controller' => 'admin_photogalleries',
                                 'action' => 'edit',
-                                'id' => $memberId
+                                'id' => $photoGalleryId
                                     ), 'default', true);  
                     }
                     
 //                    print_r($fileInfo);
 //                    die();
                     
-                    //isto kao $fileInfo=$_FILES['member_photo'];
+                    //isto kao $fileInfo=$_FILES['photo_gallery_leading_photo'];
                 }
                 
                 
                 // do actual task
                 //save to database etc
                 //set system message
-                $flashMessenger->addMessage('Member has been saved', 'success'); //u sesiju upisujemo poruku member has been saved
+                $flashMessenger->addMessage('Photo Gallery has been saved', 'success'); //u sesiju upisujemo poruku photoGallery has been saved
                 //redirect to same or another page
                 $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-                $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+                $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                         ->gotoRoute(array(
-                            'controller' => 'admin_members',
-                            'action' => 'index'
+                            'controller' => 'admin_photogalleries',
+                            'action' => 'edit',
+                            'id' => $photoGalleryId
                                 ), 'default', true);
             } catch (Application_Model_Exception_InvalidInput $ex) {
                 $systemMessages['errors'][] = $ex->getMessage();
@@ -130,18 +131,18 @@ class Admin_MembersController extends Zend_Controller_Action {
 
         if ($id <= 0) {
             //prekida se izvrsavanje programa i prikazuje se "Page not found"
-            throw new Zend_Controller_Router_Exception('Invalid member id: ' . $id, 404);
+            throw new Zend_Controller_Router_Exception('Invalid photo gallery id: ' . $id, 404);
         }
 
-        $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+        $cmsPhotoGalleriesTable = new Application_Model_DbTable_CmsPhotoGalleries();
 
-        $member = $cmsMembersTable->getMemberById($id);
+        $photoGallery = $cmsPhotoGalleriesTable->getPhotoGalleryById($id);
 
-        if (empty($member)) {
+        if (empty($photoGallery)) {
 
-            throw new Zend_Controller_Router_Exception('No member is found with id: ' . $id, 404);
+            throw new Zend_Controller_Router_Exception('No photo gallery is found with id: ' . $id, 404);
         }
-        //$this->view->member = $member;//prosledjujemo $membera prezentacionoj logici
+        //$this->view->photoGallery = $photoGallery;//prosledjujemo $photoGallerya prezentacionoj logici
         $flashMessenger = $this->getHelper('FlashMessenger');
 
         $systemMessages = array(//niz za poruke o uspesno ili neuspesno unetim podacima u formu
@@ -149,10 +150,10 @@ class Admin_MembersController extends Zend_Controller_Action {
             'errors' => $flashMessenger->getMessages('errors')
         );
 
-        $form = new Application_Form_Admin_MemberAdd();
+        $form = new Application_Form_Admin_PhotoGalleryEdit();
 
         //default form data
-        $form->populate($member);
+        $form->populate($photoGallery);
         
 
 
@@ -161,29 +162,29 @@ class Admin_MembersController extends Zend_Controller_Action {
 
                 //check form is valid
                 if (!$form->isValid($request->getPost())) {//validacija forme ukoliko nisu validni/dobri podaci iz forme bacamo exception i idemo na catch
-                    throw new Application_Model_Exception_InvalidInput('Invalid form data was sent for member');
+                    throw new Application_Model_Exception_InvalidInput('Invalid form data was sent for photo gallery');
                 }
 
                 //get form data
                 $formData = $form->getValues(); //ovo treba da se upise u bazu(podaci iz forme)
                 //die(print_r($formData, true));
-                //$cmsMembersTable = new Application_Model_DbTable_CmsMembers();
-                //$cmsMembersTable->insert($formData);
+                //$cmsPhotoGalleriesTable = new Application_Model_DbTable_CmsPhotoGalleries();
+                //$cmsPhotoGalleriesTable->insert($formData);
                 
-                unset($formData['member_photo']);
+                unset($formData['photo_gallery_leading_photo']);
 
-                if($form->getElement('member_photo')->isUploaded()) {
+                if($form->getElement('photo_gallery_leading_photo')->isUploaded()) {
                 //photo is uploaded
-                    $fileInfos = $form->getElement('member_photo')->getFileInfo('member_photo');
-                    $fileInfo=$fileInfos['member_photo'];
+                    $fileInfos = $form->getElement('photo_gallery_leading_photo')->getFileInfo('photo_gallery_leading_photo');
+                    $fileInfo=$fileInfos['photo_gallery_leading_photo'];
                     
                     try{
                       //open uploaded photo in temporary directory
-                     $memberPhoto = Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
+                     $photoGalleryPhoto = Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
                      //dimenzionise sliku
-                     $memberPhoto->fit(150, 150);
+                     $photoGalleryPhoto->fit(360, 270);
                      
-                     $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $member['id'] . '.jpg');
+                     $photoGalleryPhoto->save(PUBLIC_PATH . '/uploads/photo-galleries/' . $photoGallery['id'] . '.jpg');
                      
                     } catch (Exception $ex) {
                         
@@ -193,27 +194,38 @@ class Admin_MembersController extends Zend_Controller_Action {
                 }
                 //Radimo update postojeceg zapisa u tabeli
                
-                $cmsMembersTable->updateMember($member['id'], $formData);
+                $cmsPhotoGalleriesTable->updatePhotoGallery($photoGallery['id'], $formData);
 
                 // do actual task
                 //save to database etc
                 //set system message
-                $flashMessenger->addMessage('Member has been updated', 'success'); //u sesiju upisujemo poruku member has been saved
+                $flashMessenger->addMessage('Photo Gallery has been updated', 'success'); //u sesiju upisujemo poruku photoGallery has been saved
                 //redirect to same or another page
                 $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-                $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+                $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                         ->gotoRoute(array(
-                            'controller' => 'admin_members',
+                            'controller' => 'admin_photogalleries',
                             'action' => 'index'
                                 ), 'default', true);
             } catch (Application_Model_Exception_InvalidInput $ex) {
                 $systemMessages['errors'][] = $ex->getMessage();
             }
         }
+        
+        $cmsPhotosDbTable = new Application_Model_DbTable_CmsPhotos();
+        $photos = $cmsPhotosDbTable->search(array(
+            'filters'=>array(
+                'photo_gallery_id' =>$photoGallery['id']
+            ),
+            'orders'=>array(
+                'order_number'=>'ASC'
+            )
+        ));
 
         $this->view->systemMessages = $systemMessages;
         $this->view->form = $form;
-        $this->view->member = $member;
+        $this->view->photoGallery = $photoGallery;
+        $this->view->photos = $photos;
     }
     public function deleteAction(){
         $request = $this->getRequest(); //dohvatamo request objekat
@@ -224,9 +236,9 @@ class Admin_MembersController extends Zend_Controller_Action {
             //redirect to index page
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         }
@@ -237,34 +249,34 @@ class Admin_MembersController extends Zend_Controller_Action {
             $id = (int) $request->getPost('id'); //iscitavamo parametar id filtriramo ga da bude int
 
             if ($id <= 0) {
-                throw new Application_Model_Exception_InvalidInput('Invalid member id: ' . $id);
+                throw new Application_Model_Exception_InvalidInput('Invalid photo gallery id: ' . $id);
                 
             }
 
-            $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+            $cmsPhotoGalleriesTable = new Application_Model_DbTable_CmsPhotoGalleries();
 
-            $member = $cmsMembersTable->getMemberById($id);
+            $photoGallery = $cmsPhotoGalleriesTable->getPhotoGalleryById($id);
 
-            if (empty($member)) {
-                throw new Application_Model_Exception_InvalidInput('No member is found with id: ' . $id);
+            if (empty($photoGallery)) {
+                throw new Application_Model_Exception_InvalidInput('No photo gallery is found with id: ' . $id);
             }
 
-            $cmsMembersTable->deleteMember($id);
+            $cmsPhotoGalleriesTable->deletePhotoGallery($id);
 
-            $flashMessenger->addMessage('Member : ' . $member['first_name'] . ' ' . $member['last_name'] . ' has been deleted', 'success');
+            $flashMessenger->addMessage('PhotoGallery : ' . $photoGallery['first_name'] . ' ' . $photoGallery['last_name'] . ' has been deleted', 'success');
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         } catch (Application_Model_Exception_InvalidInput $ex) {
             $flashMessenger->addMessage($ex->getMessage(), 'errors');
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         } 
@@ -278,9 +290,9 @@ class Admin_MembersController extends Zend_Controller_Action {
             //redirect to index page
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         }
@@ -291,34 +303,34 @@ class Admin_MembersController extends Zend_Controller_Action {
             $id = (int) $request->getPost('id'); //iscitavamo parametar id filtriramo ga da bude int
 
             if ($id <= 0) {
-                throw new Application_Model_Exception_InvalidInput('Invalid member id: ' . $id);
+                throw new Application_Model_Exception_InvalidInput('Invalid photo gallery id: ' . $id);
                 
             }
 
-            $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+            $cmsPhotoGalleriesTable = new Application_Model_DbTable_CmsPhotoGalleries();
 
-            $member = $cmsMembersTable->getMemberById($id);
+            $photoGallery = $cmsPhotoGalleriesTable->getPhotoGalleryById($id);
 
-            if (empty($member)) {
-                throw new Application_Model_Exception_InvalidInput('No member is found with id: ' . $id);
+            if (empty($photoGallery)) {
+                throw new Application_Model_Exception_InvalidInput('No photo gallery is found with id: ' . $id);
             }
 
-            $cmsMembersTable->disableMember($id);
+            $cmsPhotoGalleriesTable->disablePhotoGallery($id);
 
-            $flashMessenger->addMessage('Member : ' . $member['first_name'] . ' ' . $member['last_name'] . ' has been disabled', 'success');
+            $flashMessenger->addMessage('Photo gallery : ' . $photoGallery['title']  . ' has been disabled', 'success');
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         } catch (Application_Model_Exception_InvalidInput $ex) {
             $flashMessenger->addMessage($ex->getMessage(), 'errors');
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         } 
@@ -333,9 +345,9 @@ class Admin_MembersController extends Zend_Controller_Action {
             //redirect to index page
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         }
@@ -346,34 +358,34 @@ class Admin_MembersController extends Zend_Controller_Action {
             $id = (int) $request->getPost('id'); //iscitavamo parametar id filtriramo ga da bude int
 
             if ($id <= 0) {
-                throw new Application_Model_Exception_InvalidInput('Invalid member id: ' . $id);
+                throw new Application_Model_Exception_InvalidInput('Invalid photo gallery id: ' . $id);
                 
             }
 
-            $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+            $cmsPhotoGalleriesTable = new Application_Model_DbTable_CmsPhotoGalleries();
 
-            $member = $cmsMembersTable->getMemberById($id);
+            $photoGallery = $cmsPhotoGalleriesTable->getPhotoGalleryById($id);
 
-            if (empty($member)) {
-                throw new Application_Model_Exception_InvalidInput('No member is found with id: ' . $id);
+            if (empty($photoGallery)) {
+                throw new Application_Model_Exception_InvalidInput('No photo gallery is found with id: ' . $id);
             }
 
-            $cmsMembersTable->enableMember($id);
+            $cmsPhotoGalleriesTable->enablePhotoGallery($id);
 
-            $flashMessenger->addMessage('Member : ' . $member['first_name'] . ' ' . $member['last_name'] . ' has been enabled', 'success');
+            $flashMessenger->addMessage('Photo gallery : ' . $photoGallery['title'] . ' has been enabled', 'success');
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         } catch (Application_Model_Exception_InvalidInput $ex) {
             $flashMessenger->addMessage($ex->getMessage(), 'errors');
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         } 
@@ -387,9 +399,9 @@ class Admin_MembersController extends Zend_Controller_Action {
             //redirect to index page
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         }
@@ -413,16 +425,16 @@ class Admin_MembersController extends Zend_Controller_Action {
             
             $sortedIds = explode(',', $sortedIds);
             
-            $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+            $cmsPhotoGalleriesTable = new Application_Model_DbTable_CmsPhotoGalleries();
             
-            $cmsMembersTable->updateOrderOfMembers($sortedIds);
+            $cmsPhotoGalleriesTable->updateOrderOfPhotoGalleries($sortedIds);
             
             $flashMessenger->addMessage('Order is successfully saved', 'success');
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
             
@@ -431,27 +443,27 @@ class Admin_MembersController extends Zend_Controller_Action {
             $flashMessenger->addMessage($ex->getMessage(), 'errors');
             
             $redirector = $this->getHelper('Redirector'); //redirect je samo i uvek get zahtev i nemoze biti post, radi se samo za get metodu
-            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _members
+            $redirector->setExit(true)//ukoliko je uspesan unos u formu redirektujemo na tu stranu admin _photoGalleries
                     ->gotoRoute(array(
-                        'controller' => 'admin_members',
+                        'controller' => 'admin_photogalleries',
                         'action' => 'index'
                             ), 'default', true);
         }
     }
     public function dashboardAction() {
         
-        $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
-        //$select = $cmsMembersDbTable->select();
-        //$members = $cmsMembersDbTable->fetchAll($select);
+        $cmsPhotoGalleriesDbTable = new Application_Model_DbTable_CmsPhotoGalleries();
+        //$select = $cmsPhotoGalleriesDbTable->select();
+        //$photoGalleries = $cmsPhotoGalleriesDbTable->fetchAll($select);
         
-        //$enabled = $cmsMembersDbTable->enabledMembers($members);
-        $enabled = $cmsMembersDbTable->count(array(
-        'status'=>Application_Model_DbTable_CmsMembers::STATUS_ENABLED));
-        //$allMembers =$cmsMembersDbTable->allMembers($members);
-        $allMembers =$cmsMembersDbTable->count();
+        //$enabled = $cmsPhotoGalleriesDbTable->enabledPhotoGalleries($photoGalleries);
+        $enabled = $cmsPhotoGalleriesDbTable->count(array(
+        'status'=>Application_Model_DbTable_CmsPhotoGalleries::STATUS_ENABLED));
+        //$allPhotoGalleries =$cmsPhotoGalleriesDbTable->allPhotoGalleries($photoGalleries);
+        $allPhotoGalleries =$cmsPhotoGalleriesDbTable->count();
         
         
-        $this->view->enabledMembers = $enabled;
-        $this->view->allMembers = $allMembers;
+        $this->view->enabledPhotoGalleries = $enabled;
+        $this->view->allPhotoGalleries = $allPhotoGalleries;
     }
 }

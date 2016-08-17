@@ -18,9 +18,9 @@ class Admin_ClientsController extends Zend_Controller_Action {
             //'description_search' => 'farm'
             
             //),
-            //'orders' => array(//sortiram tabelu po
-                //'order_number'=>'ASC'
-            //),
+            'orders' => array(//sortiram tabelu po
+                'order_number'=>'ASC'
+            ),
             //'limit' => 4,
             //'page' => 2
         ));

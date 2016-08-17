@@ -17,9 +17,9 @@ class Admin_ServicesController extends Zend_Controller_Action
             //'description_search'=> 'ideja'
             
             //),
-            //'orders' => array(//sortiram tabelu po
-            //    'order_number'=>'DESC'
-            //),
+            'orders' => array(//sortiram tabelu po
+                'order_number'=>'ASC'
+            ),
             //'limit' => 4,
             //'page' => 2
         ));
