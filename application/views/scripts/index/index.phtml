@@ -1,6 +1,7 @@
 <?php
 $services=$this->services;
 $indexSlides=$this->indexSlides;
+$photoGalleries = $this->photoGalleries;
 $this->headTitle('Start Page');
 
 ?>
@@ -52,11 +53,13 @@ $this->headTitle('Start Page');
         <div class="block services margin-top-large">
             <h2 class="block-title">
                 <span>Our Services</span> 
-                <small><a href="/services">View all</a></small>
+                <?php if ($this->servicesSitemapPage) {?>
+		<small><a href="<?php echo $this->sitemapPageUrl($this->servicesSitemapPage['id']);?>">View all</a></small>
+                <?php }?>
             </h2>
             <ul class="thumbnails row">
                 <?php
-                foreach ($this->services as $service) {
+                foreach ($services as $service) {
                 ?>
                     <li class="col-sm-3">
                         <h3 class="title">
@@ -72,51 +75,29 @@ $this->headTitle('Start Page');
         <div class="block portfolio margin-top-large">
             <h2 class="block-title">
                 <span>Photo galleries</span> 
-                <small><a href="#link-to-all-photo-galleries">View all</a></small>
+                <?php if ($this->photoGalleriesPages) {?>
+		<small><a href="<?php echo $this->sitemapPageUrl($this->photoGalleriesPages['id']);?>">View all</a></small>
+                <?php }?>
             </h2>
             <ul class="thumbnails row projects">
+                <?php
+                foreach ($photoGalleries as $photoGallery) {
+                ?>
                 <li class="col-md-4 ">
                     <div class="">
                         <div class="project">
-                            <a class="lnk-polaroid" href="#link-to-photo-gallery-1">
-                                <img src="/uploads/photo-galleries/1.jpg" alt="Photo Gallery 1 Title" class="img-polaroid img-responsive" />
+                            <a class="lnk-polaroid" href="<?php echo $this->photoGalleryUrl($photoGallery); ?>">
+                                <img src="<?php echo $this->photoGalleryLeadingPhotoUrl($photoGallery); ?>" alt="<?php echo $this->escape($photo['title']); ?>" class="img-polaroid img-responsive" />
                             </a>
                             <h3 class="title">
-                                <a href="#link-to-photo-gallery-1">Photo Gallery 1 Title</a>
+                                <a href="<?php echo $this->photoGalleryUrl($photoGallery); ?>"><?php echo $this->escape($photoGallery['title']); ?></a>
                                 <small class="pull-right"></small>
                             </h3>
-                            <p class="muted">Photo Gallery 1 Description</p>
+                            <p class="muted"><?php echo $this->escape($photoGallery['description']); ?></p>
                         </div>
                     </div>
                 </li>
-                <li class="col-md-4 ">
-                    <div class="">
-                        <div class="project">
-                            <a class="lnk-polaroid" href="#link-to-photo-gallery-2">
-                                <img src="/uploads/photo-galleries/2.jpg" alt="Photo Gallery 2 Title" class="img-polaroid img-responsive" />
-                            </a>
-                            <h3 class="title">
-                                <a href="#link-to-photo-gallery-2">Photo Gallery 2 Title</a>
-                                <small class="pull-right"></small>
-                            </h3>
-                            <p class="muted">Photo Gallery 2 Description</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-md-4 ">
-                    <div class="">
-                        <div class="project">
-                            <a class="lnk-polaroid" href="#link-to-photo-gallery-3">
-                                <img src="/uploads/photo-galleries/3.jpg" alt="Photo Gallery 3 Title" class="img-polaroid img-responsive" />
-                            </a>
-                            <h3 class="title">
-                                <a href="#link-to-photo-gallery-3">Photo Gallery 3 Title</a>
-                                <small class="pull-right"></small>
-                            </h3>
-                            <p class="muted">Photo Gallery 3 Description</p>
-                        </div>
-                    </div>
-                </li>
+                <?php } ?>
             </ul>
         </div>
     </div>

@@ -1,0 +1,54 @@
+<?php
+$sitemapPage=$this->sitemapPage;
+$photoGallery = $this->photoGallery;
+$photos = $this->photos;
+$this->headTitle($sitemapPage['title']);
+$this->headMeta()->appendName('description', $sitemapPage['description']);
+?>
+<div id="highlighted">
+			<div class="container">
+				<div class="header">
+					<h2 class="page-title">
+						<span><?php echo $this->escape($sitemapPage['title']); ?></span>
+					</h2>
+					<a href="<?php echo $this->sitemapPageUrl($sitemapPage['id']); ?>" class="btn btn-xs btn-default back-link"><i class="fa fa-arrow-left"></i> Back to all photo galleries</a>
+				</div>
+			</div>
+		</div>
+		<div id="content">
+			<div class="container portfolio">
+				<!--Portfolio feature item-->
+				<div class="row">
+					<div class="col-md-7 project-photos">
+						<!-- Slider for project pictures -->
+						<div id="photo-gallery-slider-id" class="carousel slide">
+							<div class="carousel-inner">
+                                                            <?php foreach ($photos as $index=>$photo) { ?>
+								<div class="item <?php echo $index == 0 ? 'active' : '';?>">
+									<img src="<?php echo $this->photoUrl($photo); ?>" alt="<?php echo $this->escape($photo['title']); ?>" />
+									<div class="carousel-caption">
+										<h4>
+											<?php echo $this->escape($photo['title']); ?>
+										</h4>
+										<p><?php echo $this->escape($photo['description']); ?></p>
+									</div>
+								</div>
+                                                            <?php } ?>        
+							</div>
+							<a class="left carousel-control" href="#photo-gallery-slider-id" data-slide="prev">&lsaquo;</a> <a class="right carousel-control" href="#photo-gallery-slider-id" data-slide="next">&rsaquo;</a> 
+						</div>
+					</div>
+					<div class="col-md-5 sidebar sidebar-right">
+						<!-- quick details -->
+						<div class="block">
+							<h3 class="block-title">
+								<span><?php echo $this->escape($photoGallery['title']); ?></span>
+							</h3>
+							<div class="block">
+								<p><?php echo $this->escape($photoGallery['description']); ?></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
