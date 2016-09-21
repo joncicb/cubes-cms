@@ -14,7 +14,6 @@ class Zend_View_Helper_MemberImgUrl extends Zend_View_Helper_Abstract {
         } else {
             
             return $this->view->baseUrl('/uploads/members/no-image.jpg');
-        
             
         }
     }

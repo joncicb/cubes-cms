@@ -1,45 +1,112 @@
-		<div id="highlighted">
-			<div class="container">
-                            <?php echo $this->headTitle('Contact');?>
-				<div class="header">
-					<h2 class="page-title">
-						<span>Contact</span> 
-						<small>No project too big or small, get in touch!</small>
-					</h2>
-				</div>
-			</div>
-		</div>
-		<div id="content">
-			<div class="container">
-				<div class="block">
-					<div class="row">
-						<div class="col-sm-6">
-							<form action="#" id="contact-form">
-								<div class="form-group">
-									<input type="text" placeholder="Name" class="form-control">
-								</div>
-								<div class="form-group">
-									<input type="email" placeholder="Email" class="form-control">
-								</div>
-								<div class="form-group">
-									<textarea placeholder="Message" class="form-control" rows="15"></textarea>
-								</div>
-								<input type="button" value="Send Message" class="btn btn-primary">
-							</form>
-						</div>
-						<div class="col-sm-6">
-							<h3 class="block-title sub-title">
-								<span>Other Ways To Get In Touch</span>
-							</h3>
-							<p><abbr title="Phone">P</abbr>: 011/3210-112</p>
-							<p><abbr title="Fax">F</abbr>: 011/3210-112</p>
-							<p><abbr title="Email">E</abbr>: office@cubes.rs</p>
-							<p><abbr title="Address">A</abbr>: Bulevar Milutina Milankovića 181, 11000 Beograd</p>
-							<a href="https://maps.google.co.uk/maps?q=London&amp;ie=UTF8&amp;hq=&amp;hnear=London,+United+Kingdom&amp;gl=uk&amp;t=m&amp;ll=51.510238,-0.127029&amp;spn=0.042735,0.102654&amp;z=12&amp;">
-								<img class="img-polaroid" alt="Location map" src="/img/misc/map.png">
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<?php
+$form = $this->form;
+$form->setElementDecorators(array('ViewHelper')); //za ispis gresaka u formi
+$systemMessages = $this->systemMessages;
+?>
+
+
+<div id="highlighted">
+    <div class="container">
+<?php echo $this->headTitle('Contact'); ?>
+        <div class="header">
+            <h2 class="page-title">
+                <span>Contact</span> 
+                <small>No project too big or small, get in touch!</small>
+            </h2>
+        </div>
+    </div>
+</div>
+<div id="content">
+    <div class="container">
+        <div class="block">
+            <div class="row">
+                <div class="col-sm-6">
+                    <?php 
+                    if($systemMessages == "init"){ ?>
+                        <form method="post" action="" id="contact-form">
+                        <input type="hidden" name="task" value="contact">
+                        <div class="form-group">
+                            <?php
+                            echo $form->getElement('name')->setAttribs(array(
+                                'class' => 'form-control input-md',
+                                'placeholder' => 'enter your name',
+                                'id' => 'name',
+                                'required' => 'required'
+                            ));
+                            ?>
+                             <?php if ($form->getElement('name')->hasErrors()) { ?>
+                                    <div class="has-error">
+                                        <?php foreach ($form->getElement('name')->getMessages() as $message) { ?>
+                                            <p class="help-block"><?php echo $this->escape($message); ?></p>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?> 
+                            
+                        </div>
+                        <div class="form-group">
+                            <?php
+                            echo $form->getElement('email')->setAttribs(array(
+                                'class' => 'form-control input-md',
+                                'placeholder' => 'enter your email',
+                                'id' => 'email',
+                                'required' => 'required'
+                            ));
+                            ?>
+                             <?php if ($form->getElement('email')->hasErrors()) { ?>
+                                    <div class="has-error">
+                                        <?php foreach ($form->getElement('email')->getMessages() as $message) { ?>
+                                            <p class="help-block"><?php echo $this->escape($message); ?></p>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?> 
+                            
+                        </div>
+                        <div class="form-group">
+                            <?php
+                            echo $form->getElement('message')->setAttribs(array(
+                                'class' => 'form-control input-md',
+                                'placeholder' => 'Enter your message',
+                                'id' => 'message',
+                                'required' => 'required',
+                                'rows' => 15
+                            ));
+                            ?>
+                             <?php if ($form->getElement('message')->hasErrors()) { ?>
+                                    <div class="has-error">
+                                        <?php foreach ($form->getElement('message')->getMessages() as $message) { ?>
+                                            <p class="help-block"><?php echo $this->escape($message); ?></p>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?> 
+                            
+                        </div>
+                        <input type="submit" value="Send Message" class="btn btn-primary">
+                    </form>
+                    <?php }else{
+                        if($systemMessages == "Error"){
+                            echo "Doslo je do greske prilikom slanja poruke";
+                        }
+                        if($systemMessages == "Success"){
+                            echo "Uspesno poslata poruka";
+                        }
+                    }
+                    
+                    ?>
+                    
+                </div>
+                <div class="col-sm-6">
+                    <h3 class="block-title sub-title">
+                        <span>Other Ways To Get In Touch</span>
+                    </h3>
+                    <p><abbr title="Phone">P</abbr>: 011/3210-112</p>
+                    <p><abbr title="Fax">F</abbr>: 011/3210-112</p>
+                    <p><abbr title="Email">E</abbr>: office@cubes.rs</p>
+                    <p><abbr title="Address">A</abbr>: Bulevar Milutina Milankovića 181, 11000 Beograd</p>
+                    <a href="https://maps.google.co.uk/maps?q=London&amp;ie=UTF8&amp;hq=&amp;hnear=London,+United+Kingdom&amp;gl=uk&amp;t=m&amp;ll=51.510238,-0.127029&amp;spn=0.042735,0.102654&amp;z=12&amp;">
+                        <img class="img-polaroid" alt="Location map" src="/img/misc/map.png">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
