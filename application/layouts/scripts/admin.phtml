@@ -145,5 +145,8 @@ $user = Zend_Auth::getInstance()->getIdentity();
     <script src="<?php echo $this->baseUrl('/admin/dist/js/sb-admin-2.js');?>"></script>
     <?php echo $this->inlineScript(); ?>
 </body>
-
+<?php
+	$this->addScriptPath(APPLICATION_PATH . '/views/scripts');
+	echo $this->render('admin/util/profiler.phtml');
+?>
 </html>

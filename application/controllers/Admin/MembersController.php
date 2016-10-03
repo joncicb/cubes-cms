@@ -11,8 +11,12 @@ class Admin_MembersController extends Zend_Controller_Action {
         );
         //prikaz svih membera
         $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
-
-        $members = $cmsMembersDbTable->search(array(
+        
+        $cache = Zend_Registry::get('mycache');//pozivamo kes iz registra
+        $members = $cache->load('members');//ovde membere trazimo iz kesa
+        
+        if(!$members){//ako u kesu nema membera pozovi ih iz baze
+           $members = $cmsMembersDbTable->search(array(
             //'filters' => array(//filtriram tabelu po
             //'status'=>Application_Model_DbTable_CmsMembers::STATUS_DISABLED,
             //'work_title' =>  	'PHP Developer',
@@ -24,7 +28,12 @@ class Admin_MembersController extends Zend_Controller_Action {
             ),
             //'limit' => 4,
             //'page' => 2
-        ));
+        )); 
+           
+           $cache->save($members, 'members');
+        }
+        
+        
 
 
         $this->view->members = $members; //prosledjivanje rezultata
